@@ -36,7 +36,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Pulgins\Ink\Demos\Basic Demo\Scripts\Editor\BasicInkExampleEditor.cs" />
+     <Compile Include="Assets\Scripts\Editor\BasicInkExampleEditor.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/2019.4.21f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

@@ -36,8 +36,10 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Pulgins\Ink\Demos\Basic Demo\Scripts\BasicInkExample.cs" />
-     <Compile Include="Assets\Pulgins\Ink\Demos\Basic Demo\Scripts\QuitGameOnKeypress.cs" />
+     <Compile Include="Assets\Scripts\CharacterScripts\CharacterSO.cs" />
+     <Compile Include="Assets\Scripts\CharacterScripts\Stat.cs" />
+     <Compile Include="Assets\Scripts\InkScripts\InkManager.cs" />
+     <Compile Include="Assets\Scripts\InkScripts\QuitGameOnKeypress.cs" />
      <Compile Include="Assets\Scripts\ShipScripts\Ship.cs" />
      <Compile Include="Assets\Scripts\ShipScripts\ShipComponent.cs" />
      <Compile Include="Assets\Scripts\ShipScripts\ShipComponentSlot.cs" />
