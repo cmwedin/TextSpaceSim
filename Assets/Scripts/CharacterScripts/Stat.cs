@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stat
+[System.Serializable] public class Stat
 {
+    public string Name { get; }
     private int _value;
     private int _buff;
-    public int Value 
+    
+    [SerializeField] public int Value 
         { get => _value + _buff; 
           set => _value = value; }
+    public int Buff
+        { get => _buff;
+          set => _buff = value; }
 }
