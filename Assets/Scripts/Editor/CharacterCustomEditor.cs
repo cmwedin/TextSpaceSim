@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
 
+
 public class AssetHandler
 {
     [OnOpenAsset()]

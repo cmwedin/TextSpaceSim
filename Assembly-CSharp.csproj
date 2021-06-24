@@ -43,6 +43,7 @@
      <Compile Include="Assets\Scripts\ShipScripts\Ship.cs" />
      <Compile Include="Assets\Scripts\ShipScripts\ShipComponent.cs" />
      <Compile Include="Assets\Scripts\ShipScripts\ShipComponentSlot.cs" />
+     <Compile Include="Assets\Scripts\interfaces\iDamagable.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/2019.4.21f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
