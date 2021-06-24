@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable] public class Stat
 {
     public string Name { get; }
-    private int _value;
+    [SerializeField] private int _value;
     private int _buff;
     
     [SerializeField] public int Value 

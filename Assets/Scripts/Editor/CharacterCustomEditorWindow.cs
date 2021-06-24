@@ -13,7 +13,7 @@ public class CharacterCustomEditorWindow : ExtendedEditorWindow {
     }
 
     private void OnGUI() {
-        currentProperty = seriealizedObject.FindProperty("Atribs");
+        currentProperty = seriealizedObject.FindProperty("Attributes");
         DrawProperties(currentProperty, true);
     }
 }
