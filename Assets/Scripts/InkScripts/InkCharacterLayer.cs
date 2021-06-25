@@ -32,10 +32,22 @@ public class InkCharacterLayer : MonoBehaviour
         if(name.Length != 3) throw new System.Exception("invalid attribute name used, see CharacterSO.Attributes documentation"); //rejects inputs that dont conform to naming convention
         return currentTarget.GetAttrib(name.ToUpper()); //if everything looks good calls the actual get attrib function making sure the name is all caps
     }
+    
     public void Init() {
+        BindInkExternals();
+        foreach (CharacterSO car in CharacterDatabase)
+        {
+            car.Init();
+        }
+    }
+    private void BindInkExternals() {
+        //binds ink external functions relevant to the class
         Manager.story.BindExternalFunction("LoadCharacter", (string name) => LoadCharacterSO(name));
         Manager.story.BindExternalFunction("GetAttrib", (string name) => GetAttrib(name));
-
+        Manager.story.BindExternalFunction("GetHealth", () => currentTarget.Health);
+        Manager.story.BindExternalFunction("GetName", () => currentTarget.name);
+        Manager.story.BindExternalFunction("Damage", (float dmg) => currentTarget.Damage(dmg));
+        
     }
 
 }

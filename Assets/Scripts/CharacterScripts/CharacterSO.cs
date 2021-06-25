@@ -11,7 +11,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewCharacterSO", menuName = "TextSpaceSim/Characters/New Character", order = 0)]
 public class CharacterSO : ScriptableObject, IDamagable 
 {
-    public bool isPlayer { get; private set; }
+    public bool isDead {get; private set; }
+    public delegate void DeathAction();
+    public static event DeathAction OnDeath;
 
     //naming convention for attributes is a 3 letter abreviation in all caps
     public List<Stat> Attributes = new List<Stat>()
@@ -20,7 +22,10 @@ public class CharacterSO : ScriptableObject, IDamagable
          new Stat("REF"),
          new Stat("VIT")};
     private float _bonusHealth = 1;
-    private float _health;
+    private float _health
+        { get => _health;
+          set {if(value<=0) Kill();
+               _health = value;}}
     public float maxHealth { get => GetAttrib("VIT")*10 + _bonusHealth;}
     [SerializeField] public float Health { get => _health; }
 
@@ -29,6 +34,9 @@ public class CharacterSO : ScriptableObject, IDamagable
         if(newHealth <= 0) UnityEngine.Debug.Log("Character Died");
         _health = newHealth;
     }
+    public void Kill() {
+        isDead = true;
+    }
 
     //QOL function to set a stat's value
     public int GetAttrib(string name) {
@@ -36,7 +44,7 @@ public class CharacterSO : ScriptableObject, IDamagable
     }
 
     //Callback functions
-    private void Init() {
+    public void Init() {
         _health = maxHealth;
     }
 }

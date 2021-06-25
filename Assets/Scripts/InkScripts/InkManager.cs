@@ -28,14 +28,19 @@ public class InkManager : MonoBehaviour {
 		// Remove the default message
 		RemoveChildren();
 		//assigns references for communicating data, all done here to avoid race conditions
+		//gets the other ink layers first
+		CharacterLayer = gameObject.GetComponent<InkCharacterLayer>();
+		//connects them to itself
 		CharacterLayer.Manager = this;
-		StartStory();
+		//creat the story object here so other layers can use it for initializing
+		story = new Story (inkJSONAsset.text);
 		CharacterLayer.Init();
+		//runs the main function
+		StartStory();
 	}
 
 	// Creates a new Story object with the compiled story which we can then play!
 	void StartStory () {
-		story = new Story (inkJSONAsset.text);
         if(OnCreateStory != null) OnCreateStory(story);
 		RefreshView();
 	}
