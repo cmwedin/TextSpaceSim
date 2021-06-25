@@ -11,6 +11,9 @@ public class InkManager : MonoBehaviour {
     public static event Action<Story> OnCreateStory;
 	public static event TurnAction OnTurn;
 
+	//other monobehavior refs
+	public InkCharacterLayer CharacterLayer;
+
 	
 	[SerializeField] private TextAsset inkJSONAsset = null;
 	public Story story;
@@ -24,7 +27,10 @@ public class InkManager : MonoBehaviour {
     void Awake () {
 		// Remove the default message
 		RemoveChildren();
+		//assigns references for communicating data, all done here to avoid race conditions
+		CharacterLayer.Manager = this;
 		StartStory();
+		CharacterLayer.Init();
 	}
 
 	// Creates a new Story object with the compiled story which we can then play!

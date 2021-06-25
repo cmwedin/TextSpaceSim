@@ -12,6 +12,8 @@ using UnityEngine;
 public class CharacterSO : ScriptableObject, IDamagable 
 {
     public bool isPlayer { get; private set; }
+
+    //naming convention for attributes is a 3 letter abreviation in all caps
     public List<Stat> Attributes = new List<Stat>()
         {new Stat("STR"),
          new Stat("INT"),
@@ -34,8 +36,7 @@ public class CharacterSO : ScriptableObject, IDamagable
     }
 
     //Callback functions
-    private void Awake() {
-        //bandaid code move this somewhere else in the future
+    private void Init() {
         _health = maxHealth;
     }
 }
