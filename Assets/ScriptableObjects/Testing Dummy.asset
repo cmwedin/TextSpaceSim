@@ -10,5 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d82be2d60faad344eb115779b6380dd3, type: 3}
-  m_Name: test
+  m_Name: Testing Dummy
   m_EditorClassIdentifier: 
+  Attributes:
+  - _value: 1
+  - _value: 1
+  - _value: 1
+  - _value: 1

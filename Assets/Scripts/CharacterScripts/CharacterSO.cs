@@ -12,8 +12,9 @@ using UnityEngine;
 public class CharacterSO : ScriptableObject, IDamagable 
 {
     public bool isDead {get; private set; }
+        = false;
     public delegate void DeathAction();
-    public static event DeathAction OnDeath;
+    public event DeathAction OnDeath;
 
     //naming convention for attributes is a 3 letter abreviation in all caps
     public List<Stat> Attributes = new List<Stat>()
@@ -22,20 +23,27 @@ public class CharacterSO : ScriptableObject, IDamagable
          new Stat("REF"),
          new Stat("VIT")};
     private float _bonusHealth = 1;
-    private float _health
-        { get => _health;
-          set {if(value<=0) Kill();
-               _health = value;}}
+    private float _health;
     public float maxHealth { get => GetAttrib("VIT")*10 + _bonusHealth;}
-    [SerializeField] public float Health { get => _health; }
+    [SerializeField] public float Health 
+        { get => _health; 
+          set { 
+            if(isDead) 
+                { throw new System.Exception("You cannot change the health of a dead character, use Revive Method (not yet implementend)");}
+            if(value <= 0) 
+                Kill();
+            else _health = value;} 
+        }
 
     public void Damage(float dmg) {
-        float newHealth = _health - dmg;
-        if(newHealth <= 0) UnityEngine.Debug.Log("Character Died");
-        _health = newHealth;
+        float newHealth = Health - dmg;
+        //if(newHealth <= 0) UnityEngine.Debug.Log("Character Died");
+        Health = newHealth;
     }
     public void Kill() {
+        _health = 0;
         isDead = true;
+        OnDeath?.Invoke();
     }
 
     //QOL function to set a stat's value
@@ -45,6 +53,8 @@ public class CharacterSO : ScriptableObject, IDamagable
 
     //Callback functions
     public void Init() {
-        _health = maxHealth;
+        isDead = false;
+        Health = maxHealth;
+        
     }
 }

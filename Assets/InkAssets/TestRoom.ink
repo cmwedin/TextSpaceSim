@@ -5,9 +5,10 @@ This is the testing room. Over in the corner is the testing dummy. We had to do 
 
 === Testing_Dummy ===
 ~ LoadCharacter("Testing Dummy")
-The testing dummy doesnt seem to want to talk to you very much. Maybe it blames you for whats happened to it. We didnt make it so everything would be working properly for you after all.
-*Examine the Dummies attributes
-    ** examine its strength
+{IsDead() : ->dead}
+{The testing dummy doesnt seem to want to talk to you very much. Maybe it blames you for whats happened to it. We didnt make it so everything would be working properly for you after all. | the testing dummy continues to be inscrutable }
++Examine the Dummies attributes
+    ++ examine its strength
     { 
         - GetAttrib("STR") < 4: 
         The dummy is very weak. 
@@ -17,8 +18,20 @@ The testing dummy doesnt seem to want to talk to you very much. Maybe it blames 
         The dummy is considerably strong
         - GetAttrib("STR") >= 10: 
         The dummy is incrediably strong. The only reason it doesnt kill you where you stand is that combat hasnt been programed into the game yet.
-        - else: Somthing went wrong, the dummy's strength should be {print_num(GetAttrib("STR"))}
+        - else: Somthing went wrong, the dummy's strength should be {PrintNum("STR")}
     }
-*Examine the Dummies health
-    The Dummy has {print_num(GetHealth())} HP
++(health) Examine the Dummies health
+    The Dummy has {PrintNum(GetHealth())} HP
+    ++(punch) Punch The dummy
+    {Damage(2)} You give the testing dummy a solid punch,<> 
+    {IsDead() : and with that it collapses to the ground->dead}
+    ->health
+    ++Stop examining health
+    ->Testing_Dummy
+- ->DONE
+=dead
+{ stopping:
+- The testing dummy's body is in front of you. {CameFrom(->punch): "Was is really alive in the first place?"  you ask yourself in an attempt to assuage a nagging sense of guilt}
+- The dummy is still dead
+}
 - ->DONE

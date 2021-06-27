@@ -16,15 +16,25 @@ public class InkCharacterLayer : MonoBehaviour
     //custom Methods
     void LoadCharacterSO(string targetName) {
         CharacterSO targ = GetCharacterSOByName(targetName);
-        if(targ != null) 
-        { prevTarget = currentTarget;
-          currentTarget = targ; }
+        if(targ != null) { 
+            if (prevTarget != null) ClearTargetEvents();
+            prevTarget = currentTarget;
+            currentTarget = targ;
+            SetTargetEvents(); }
         else throw new System.Exception("Character load failed, target " + targetName + " not found");
     }
-
     //potentially doesnt need to be a function
-    CharacterSO GetCharacterSOByName(string name) {
+    private CharacterSO GetCharacterSOByName(string name) {
         return CharacterDatabase.Find(x => x.name == name);
+    }
+    private void ClearTargetEvents() {
+        currentTarget.OnDeath -= TargetKilled;
+    }
+    private void SetTargetEvents() {
+        currentTarget.OnDeath += TargetKilled;
+    }
+    private void TargetKilled() {
+        UnityEngine.Debug.Log("Character Layer's current target was killed");
     }
     //mask of CharacterSO.GetAttrib for input validation
     private int GetAttrib(string name) {
@@ -47,7 +57,7 @@ public class InkCharacterLayer : MonoBehaviour
         Manager.story.BindExternalFunction("GetHealth", () => currentTarget.Health);
         Manager.story.BindExternalFunction("GetName", () => currentTarget.name);
         Manager.story.BindExternalFunction("Damage", (float dmg) => currentTarget.Damage(dmg));
-        
+        Manager.story.BindExternalFunction("IsDead", () => currentTarget.isDead);
     }
 
 }

@@ -1,13 +1,19 @@
-EXTERNAL LoadCharacter(NAME)
-EXTERNAL GetAttrib(NAME)
+EXTERNAL LoadCharacter(name)
+EXTERNAL GetAttrib(name)
 EXTERNAL GetHealth()
+EXTERNAL GetName()
+EXTERNAL Damage(dmg)
+EXTERNAL IsDead()
 
-=== function print_num(x) 
+=== function CameFrom(-> x) 
+	~ return TURNS_SINCE(x) == 0
+	
+=== function PrintNum(x) 
 {
     - x >= 1000:
-        {print_num(x / 1000)} thousand { x mod 1000 > 0:{print_num(x mod 1000)}}
+        {PrintNum(x / 1000)} thousand { x mod 1000 > 0:{PrintNum(x mod 1000)}}
     - x >= 100:
-        {print_num(x / 100)} hundred { x mod 100 > 0:and {print_num(x mod 100)}}
+        {PrintNum(x / 100)} hundred { x mod 100 > 0:and {PrintNum(x mod 100)}}
     - x == 0:
         zero
     - else:
