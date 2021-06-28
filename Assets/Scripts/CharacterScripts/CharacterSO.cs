@@ -16,12 +16,36 @@ public class CharacterSO : ScriptableObject, IDamagable
     public delegate void DeathAction();
     public event DeathAction OnDeath;
 
+    //will probably rework these into scriptable objects to simplify extension but this works for now
     //naming convention for attributes is a 3 letter abreviation in all caps
-    public List<Stat> Attributes = new List<Stat>()
-        {new Attrib("STR"),
-         new Attrib("INT"),
-         new Attrib("REF"),
-         new Attrib("VIT")};
+    public List<Attrib> Attributes = new List<Attrib>() {
+        new Attrib("STR"),
+        new Attrib("INT"),
+        new Attrib("REF"),
+        new Attrib("VIT")
+    };
+    //naming convention is one capitalized word
+    //will probably stick with these skills regardless of refactoring so this is mostly just for future reference
+    public List<Skill> Skills = new List<Skill>() {
+        //combat skills
+        new Skill("Sidearms"),
+        new Skill("Rifles"),
+        new Skill("Melee"),
+        new Skill("High-Tech"),
+        new Skill("Ballistics"),
+        new Skill("Explosives"),
+        //ship skills
+        new Skill("Piloting"),
+        new Skill("Leadership"),
+        new Skill("Medical"),
+        //crafting skills
+        new Skill("Chemistry"),
+        new Skill("Engineering"),
+        //social skills
+        new Skill("Rhetoric"),
+        new Skill("Charm"),
+        new Skill("Intimidation"),
+    };
     private float _bonusHealth = 1;
     private float _health;
     public float maxHealth { get => GetAttrib("VIT")*10 + _bonusHealth;}

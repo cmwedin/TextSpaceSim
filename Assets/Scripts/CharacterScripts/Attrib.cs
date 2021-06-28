@@ -7,6 +7,7 @@ public class Attrib : Stat
     public Attrib(string name) : base(name) {
         Value = 4;
     }
+    public Attrib(string name, int val) : base(name, val) {}
 
     public override int Value 
         { get => base.Value; 
