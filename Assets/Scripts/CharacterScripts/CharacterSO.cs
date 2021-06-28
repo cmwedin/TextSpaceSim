@@ -48,6 +48,9 @@ public class CharacterSO : ScriptableObject, IDamagable
     };
     private float _bonusHealth = 1;
     private float _health;
+    [SerializeField] private string _name;
+    //Read Only values
+    public string Name { get => _name;}
     public float maxHealth { get => GetAttrib("VIT")*10 + _bonusHealth;}
     [SerializeField] public float Health 
         { get => _health; 
@@ -70,15 +73,13 @@ public class CharacterSO : ScriptableObject, IDamagable
         OnDeath?.Invoke();
     }
 
-    //QOL function to set a stat's value
+    //QOL function to get a stat's value
     public int GetAttrib(string name) {
         return this.Attributes.Find(x =>x.Name == name).Value;
     }
-
-    //Callback functions
     public void Init() {
         isDead = false;
         Health = maxHealth;
-        
+        _name = this.name;
     }
 }

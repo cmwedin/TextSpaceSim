@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attrib : Stat
+
+[System.Serializable]public class Attrib : Stat
 {
     public Attrib(string name) : base(name) {
         Value = 4;
