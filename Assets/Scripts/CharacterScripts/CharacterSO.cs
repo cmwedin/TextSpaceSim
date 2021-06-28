@@ -18,10 +18,10 @@ public class CharacterSO : ScriptableObject, IDamagable
 
     //naming convention for attributes is a 3 letter abreviation in all caps
     public List<Stat> Attributes = new List<Stat>()
-        {new Stat("STR"),
-         new Stat("INT"),
-         new Stat("REF"),
-         new Stat("VIT")};
+        {new Attrib("STR"),
+         new Attrib("INT"),
+         new Attrib("REF"),
+         new Attrib("VIT")};
     private float _bonusHealth = 1;
     private float _health;
     public float maxHealth { get => GetAttrib("VIT")*10 + _bonusHealth;}
