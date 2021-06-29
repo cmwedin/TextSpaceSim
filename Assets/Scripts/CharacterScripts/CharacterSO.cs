@@ -26,7 +26,7 @@ public class CharacterSO : ScriptableObject, IDamagable
     };
     //naming convention is one capitalized word
     //will probably stick with these skills regardless of refactoring so this is mostly just for future reference
-    public List<Skill> Skills = new List<Skill>() {
+    [SerializeField] public List<Skill> Skills = new List<Skill>() {
         //combat skills
         new Skill("Sidearms"),
         new Skill("Rifles"),
@@ -47,16 +47,17 @@ public class CharacterSO : ScriptableObject, IDamagable
         new Skill("Intimidation"),
     };
     private float _bonusHealth = 1;
-    private float _health;
+    [SerializeField] private float _health;
+    [SerializeField] private float _maxHealth;
     [SerializeField] private string _name;
     //Read Only values
     public string Name { get => _name;}
-    public float maxHealth { get => GetAttrib("VIT")*10 + _bonusHealth;}
-    [SerializeField] public float Health 
+    [SerializeField]public float MaxHealth { get => _maxHealth;}
+    public float Health 
         { get => _health; 
           set { 
             if(isDead) 
-                { throw new System.Exception("You cannot change the health of a dead character, use Revive Method (not yet implementend)");}
+                { throw new System.Exception("CharacterSO Error: You cannot change the health of a dead character, use Revive Method (not yet implementend)");}
             if(value <= 0) 
                 Kill();
             else _health = value;} 
@@ -74,12 +75,16 @@ public class CharacterSO : ScriptableObject, IDamagable
     }
 
     //QOL function to get a stat's value
-    public int GetAttrib(string name) {
-        return this.Attributes.Find(x =>x.Name == name).Value;
+    public int GetAttrib(string name)
+    {
+        Attrib targetAttribute = this.Attributes.Find(x => x.Name == name);
+        if (targetAttribute != null) {return targetAttribute.Value;}
+        throw new System.Exception($"CharacterSO Error: attribute {name} not found");
     }
     public void Init() {
-        isDead = false;
-        Health = maxHealth;
+        _maxHealth = GetAttrib("VIT")*10+_bonusHealth;
         _name = this.name;
+        isDead = false;
+        Health = MaxHealth;
     }
 }

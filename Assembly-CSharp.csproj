@@ -38,15 +38,15 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\CharacterScripts\CharacterSO.cs" />
      <Compile Include="Assets\Scripts\InkScripts\InkManager.cs" />
+     <Compile Include="Assets\Scripts\CharacterScripts\Attrib.cs" />
      <Compile Include="Assets\Scripts\interfaces\IDamagable.cs" />
      <Compile Include="Assets\Scripts\ShipScripts\Ship.cs" />
      <Compile Include="Assets\Scripts\ShipScripts\ShipComponent.cs" />
      <Compile Include="Assets\Scripts\ShipScripts\ShipComponentSlot.cs" />
      <Compile Include="Assets\Scripts\InkScripts\InkCharacterLayer.cs" />
      <Compile Include="Assets\Scripts\CharacterScripts\Stat.cs" />
-     <Compile Include="Assets\Scripts\InkScripts\QuitGameOnKeypress.cs" />
-     <Compile Include="Assets\Scripts\CharacterScripts\Attrib.cs" />
      <Compile Include="Assets\Scripts\CharacterScripts\Skill.cs" />
+     <Compile Include="Assets\Scripts\InkScripts\QuitGameOnKeypress.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/2020.3.12f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

@@ -30,4 +30,8 @@ using UnityEngine;
   public virtual int Buff
   { get => _buff;
     set => _buff = value; }
+  public float Check(int Threshold) {
+    float checkFactor = (float)this.Value / (float)Threshold;
+    return checkFactor;
+  }
 }

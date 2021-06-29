@@ -8,10 +8,20 @@ using UnityEditor.Callbacks;
 public class CharacterCustomEditor : Editor {
     protected SerializedProperty Attributes;
     protected SerializedProperty Name;
+    protected SerializedProperty Skills;
+    protected SerializedProperty MaxHealth;
+    protected SerializedProperty Health;
+
+
     bool showAttributes = true;
+    bool showSkills = true;
+    public bool debug;
     private void OnEnable() {
         Name = serializedObject.FindProperty("_name");
         Attributes = serializedObject.FindProperty("Attributes");
+        Skills = serializedObject.FindProperty("Skills");
+        MaxHealth = serializedObject.FindProperty("_maxHealth");
+        Health = serializedObject.FindProperty("_health");
     }
     public override void OnInspectorGUI() {
         /*if(GUILayout.Button("Open Editor Window")) {
@@ -19,24 +29,49 @@ public class CharacterCustomEditor : Editor {
         }*/
         //DrawDefaultInspector();
         serializedObject.Update();
+        debug = EditorGUILayout.Toggle("Debug Editor",debug);
         GUILayout.Label(Name.stringValue ?? "Error Name Null");
+        EditorGUILayout.Slider("Health", Health.floatValue, 0, MaxHealth.floatValue);
         showAttributes = EditorGUILayout.BeginFoldoutHeaderGroup(showAttributes, "Attributes");
         if(showAttributes) {
             int attribMin = 1;
             int attribMax = 10;
+            GUILayout.BeginVertical();
             foreach (SerializedProperty item in Attributes) {
                 string path = item.propertyPath;
-                SerializedProperty attribName = serializedObject.FindProperty($"{path}._name");
-                SerializedProperty attribValue = serializedObject.FindProperty($"{path}._value");
-                EditorGUILayout.BeginHorizontal();
-                GUILayout.Label(attribName.stringValue);
-                attribValue.intValue = EditorGUILayout.IntSlider(attribValue.intValue, attribMin, attribMax);
-                EditorGUILayout.EndHorizontal();
+                SerializedProperty attribName = FindChildProperty(item, "_name");
+                SerializedProperty attribValue = FindChildProperty(item, "_value");
+                attribValue.intValue = EditorGUILayout.IntSlider(attribName.stringValue, attribValue.intValue, attribMin, attribMax);
             }
+            GUILayout.EndVertical();
+        }
+        EditorGUILayout.EndFoldoutHeaderGroup();
+        showSkills = EditorGUILayout.BeginFoldoutHeaderGroup(showSkills, "Skills");
+        if(showSkills) {
+            int skillMin = 1;
+            int skillMax = 100;
+            GUILayout.BeginVertical();
+            foreach (SerializedProperty item in Skills) {
+                string path = item.propertyPath;
+                SerializedProperty skillName = FindChildProperty(item, "_name");
+                SerializedProperty skillValue = FindChildProperty(item, "_value");
+                skillValue.intValue = EditorGUILayout.IntSlider(skillName.stringValue, skillValue.intValue, skillMin, skillMax);
+            }
+            GUILayout.EndVertical();
             
         }
+        EditorGUILayout.EndFoldoutHeaderGroup();
+        serializedObject.ApplyModifiedProperties();
     }
-    
+    //probably needs input handeling 
+    SerializedProperty FindChildProperty(SerializedProperty parent, string path) {
+        string targetPath = $"{parent.propertyPath}.{path}";
+        DebugMessage($"Looking up property at {targetPath}");
+        return serializedObject.FindProperty(targetPath);    
+    }
+    void DebugMessage(string msg) {
+        if(debug) {UnityEngine.Debug.Log(msg);}
+    }
 }
 /*public class AssetHandler
 {

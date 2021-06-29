@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class InkCharacterLayer : MonoBehaviour
 {
+    //in principle this should be a hash set but Find is a very usefull method for getting the correct SO from the string name
     [SerializeField] List<CharacterSO> CharacterDatabase; //TODO: populate this list automatically
     public InkManager Manager;
     private CharacterSO currentTarget;
@@ -21,7 +22,7 @@ public class InkCharacterLayer : MonoBehaviour
             prevTarget = currentTarget;
             currentTarget = targ;
             SetTargetEvents(); }
-        else throw new System.Exception("Character load failed, target " + targetName + " not found");
+        else throw new System.Exception($"Character load failed, target {targetName} not found");
     }
     //potentially doesnt need to be a function
     private CharacterSO GetCharacterSOByName(string name) {
@@ -34,13 +35,15 @@ public class InkCharacterLayer : MonoBehaviour
         currentTarget.OnDeath += TargetKilled;
     }
     private void TargetKilled() {
-        UnityEngine.Debug.Log("Character Layer's current target was killed");
+        UnityEngine.Debug.Log($"Character Layer's current target {currentTarget.Name} was killed");
     }
-    //mask of CharacterSO.GetAttrib for input validation
+    //CharacterSO.GetAttrib handles bad inputs on its own so this isnt really needed 
+    //but it allows for some leiniency in the inputs of the ink layer functions
     private int GetAttrib(string name) {
-        name = name.Trim(); //removes whitespace just to be safe
-        if(name.Length != 3) throw new System.Exception("invalid attribute name used, see CharacterSO.Attributes documentation"); //rejects inputs that dont conform to naming convention
-        return currentTarget.GetAttrib(name.ToUpper()); //if everything looks good calls the actual get attrib function making sure the name is all caps
+         
+        name = name.Trim(); 
+        if(name.Length != 3) throw new System.Exception($"{name} is not a valid attribute name, see CharacterSO.Attributes documentation"); 
+        return currentTarget.GetAttrib(name.ToUpper());
     }
     
     public void Init() {

@@ -25,7 +25,7 @@ INCLUDE Functions.ink
 +(health) Examine the Dummies health
     The Dummy has {PrintNum(GetHealth())} HP
     ++(punch) Punch The dummy
-    {Damage(2)} You give the testing dummy a solid punch,<> 
+    {Damage(5)} You give the testing dummy a solid punch,<> 
     {IsDead() : and with that it collapses to the ground->dead}
     ->health
     ++Stop examining health
