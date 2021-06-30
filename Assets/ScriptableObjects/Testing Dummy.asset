@@ -13,7 +13,47 @@ MonoBehaviour:
   m_Name: Testing Dummy
   m_EditorClassIdentifier: 
   Attributes:
-  - _value: 1
-  - _value: 1
-  - _value: 1
-  - _value: 1
+  - _name: STR
+    _value: 3
+  - _name: INT
+    _value: 6
+  - _name: REF
+    _value: 5
+  - _name: VIT
+    _value: 5
+  - _name: PER
+    _value: 6
+  - _name: CHR
+    _value: 3
+  Skills:
+  - _name: Sidearms
+    _value: 24
+  - _name: Rifles
+    _value: 25
+  - _name: Melee
+    _value: 22
+  - _name: High-Tech
+    _value: 26
+  - _name: Ballistics
+    _value: 17
+  - _name: Explosives
+    _value: 20
+  - _name: Piloting
+    _value: 25
+  - _name: Leadership
+    _value: 20
+  - _name: Medical
+    _value: 24
+  - _name: Chemistry
+    _value: 27
+  - _name: Engineering
+    _value: 25
+  - _name: Rhetoric
+    _value: 21
+  - _name: Charm
+    _value: 21
+  - _name: Intimidation
+    _value: 21
+  _health: 51
+  _maxHealth: 51
+  _name: Testing Dummy

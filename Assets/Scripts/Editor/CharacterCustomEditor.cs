@@ -61,6 +61,7 @@ public class CharacterCustomEditor : Editor {
             
         }
         EditorGUILayout.EndFoldoutHeaderGroup();
+        //TODO: if(GUILayout.Button("Initialize")) {call Character.SO.Init()}
         serializedObject.ApplyModifiedProperties();
     }
     //probably needs input handeling 

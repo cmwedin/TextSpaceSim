@@ -23,7 +23,7 @@ using UnityEngine;
     { get => _value + _buff; 
       set { 
         if(value < 1) 
-          { UnityEngine.Debug.Log("Cannot set stats to less then one");
+          { UnityEngine.Debug.Log($"Cannot set stat {Name} to less then one");
             _value = 1; }
         else _value = value; }
     }    

@@ -43,7 +43,7 @@ public class InkCharacterLayer : MonoBehaviour
          
         name = name.Trim(); 
         if(name.Length != 3) throw new System.Exception($"{name} is not a valid attribute name, see CharacterSO.Attributes documentation"); 
-        return currentTarget.GetAttrib(name.ToUpper());
+        return currentTarget.GetAttribValue(name.ToUpper());
     }
     
     public void Init() {

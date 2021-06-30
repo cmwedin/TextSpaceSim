@@ -9,6 +9,7 @@ EXTERNAL IsDead()
 	~ return TURNS_SINCE(x) == 0
 	
 === function PrintNum(x) 
+~ x=INT(x)
 {
     - x >= 1000:
         {PrintNum(x / 1000)} thousand { x mod 1000 > 0:{PrintNum(x mod 1000)}}

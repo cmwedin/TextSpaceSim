@@ -17,12 +17,14 @@ public class CharacterSO : ScriptableObject, IDamagable
     public event DeathAction OnDeath;
 
     //will probably rework these into scriptable objects to simplify extension but this works for now
-    //naming convention for attributes is a 3 letter abreviation in all caps
+    //naming convention for attributes is a 3 letter abbreviation in all caps
     public List<Attrib> Attributes = new List<Attrib>() {
-        new Attrib("STR"),
-        new Attrib("INT"),
-        new Attrib("REF"),
-        new Attrib("VIT")
+        new Attrib("STR"),//strength
+        new Attrib("INT"),//intelligence
+        new Attrib("REF"),//reflex
+        new Attrib("VIT"),//vitality
+        new Attrib("PER"),//perception
+        new Attrib("CHR"),//Charisma
     };
     //naming convention is one capitalized word
     //will probably stick with these skills regardless of refactoring so this is mostly just for future reference
@@ -75,16 +77,165 @@ public class CharacterSO : ScriptableObject, IDamagable
     }
 
     //QOL function to get a stat's value
-    public int GetAttrib(string name)
+    public int GetAttribValue(string name)
     {
         Attrib targetAttribute = this.Attributes.Find(x => x.Name == name);
         if (targetAttribute != null) {return targetAttribute.Value;}
         throw new System.Exception($"CharacterSO Error: attribute {name} not found");
     }
+    public Attrib GetAttribObject(string name) {
+        Attrib targetAttribute = this.Attributes.Find(x => x.Name == name);
+        if (targetAttribute != null) {return targetAttribute;}
+        throw new System.Exception($"CharacterSO Error: attribute {name} not found");
+    }
+    public Skill GetSkillObject(string name) {
+        Skill targetAttribute = this.Skills.Find(x => x.Name == name);
+        if (targetAttribute != null) {return targetAttribute;}
+        throw new System.Exception($"CharacterSO Error: skill {name} not found");
+    }
+    //! rules of thumb for setting the paramaters: attributes with high check thresholds should be weighted more
+    public void UpdateBaseSkillValues() {
+        GetSkillObject("Sidearms").SetBaseValue(
+            new List<Attrib>() { 
+                GetAttribObject("REF"),
+                GetAttribObject("PER") 
+            }, new List<Vector2>() {
+                new Vector2(6,(float)0.60),
+                new Vector2(5,(float)0.40)
+            });
+        GetSkillObject("Rifles").SetBaseValue(
+            new List<Attrib>() { 
+                GetAttribObject("PER"),
+                GetAttribObject("REF") 
+            }, new List<Vector2>() {
+                new Vector2(6,(float)0.60),
+                new Vector2(5,(float)0.40)
+            });
+        GetSkillObject("Melee").SetBaseValue(
+            new List<Attrib>() {
+                GetAttribObject("STR"),
+                GetAttribObject("VIT"),
+                GetAttribObject("REF")
+            }, new List<Vector2>() {
+                new Vector2(5,(float)0.60),
+                new Vector2(4,(float)0.30),
+                new Vector2(3,(float)0.10)
+            });
+        GetSkillObject("High-Tech").SetBaseValue(
+            new List<Attrib>() {
+                GetAttribObject("INT"),
+                GetAttribObject("PER"),
+                GetAttribObject("REF")
+            }, new List<Vector2>() {
+                new Vector2(8,(float)0.60),
+                new Vector2(5,(float)0.30),
+                new Vector2(2,(float)0.10)
+            });        
+        GetSkillObject("Ballistics").SetBaseValue(
+            new List<Attrib>() { 
+                GetAttribObject("REF"),
+                GetAttribObject("PER") 
+            }, new List<Vector2>() {
+                new Vector2(8,(float)0.5),
+                new Vector2(8,(float)0.5)
+            });
+        GetSkillObject("Explosives").SetBaseValue(
+            new List<Attrib>() {
+                GetAttribObject("PER"),
+                GetAttribObject("STR"),
+                GetAttribObject("INT")
+            }, new List<Vector2>() {
+                new Vector2(7,(float)0.60),
+                new Vector2(5,(float)0.30),
+                new Vector2(5,(float)0.10)
+            });
+        GetSkillObject("Piloting").SetBaseValue(
+            new List<Attrib>() {
+                GetAttribObject("REF"),
+                GetAttribObject("PER"),
+                GetAttribObject("INT")
+            }, new List<Vector2>() {
+                new Vector2(8,(float)0.60),
+                new Vector2(5,(float)0.30),
+                new Vector2(2,(float)0.10)
+            });
+        GetSkillObject("Leadership").SetBaseValue(
+            new List<Attrib>() {
+                GetAttribObject("CHR"),
+                GetAttribObject("INT"),
+                GetAttribObject("PER")
+            }, new List<Vector2>() {
+                new Vector2(8,(float)0.70),
+                new Vector2(5,(float)0.20),
+                new Vector2(2,(float)0.10)
+            });
+        GetSkillObject("Medical").SetBaseValue(
+            new List<Attrib>() {
+                GetAttribObject("INT"),
+                GetAttribObject("REF"),
+                GetAttribObject("PER"),
+                GetAttribObject("CHR")
+            }, new List<Vector2>() {
+                new Vector2(8,(float)0.60),
+                new Vector2(4,(float)0.25),
+                new Vector2(4,(float)0.10),
+                new Vector2(2,(float)0.05)
+            }); 
+        GetSkillObject("Chemistry").SetBaseValue(
+            new List<Attrib>() { 
+                GetAttribObject("INT"),
+                GetAttribObject("PER")
+            }, new List<Vector2>() {
+                new Vector2(6,(float)0.60),
+                new Vector2(5,(float)0.40)
+            });
+        GetSkillObject("Engineering").SetBaseValue(
+            new List<Attrib>() { 
+                GetAttribObject("INT"),
+                GetAttribObject("REF") 
+            }, new List<Vector2>() {
+                new Vector2(6,(float)0.60),
+                new Vector2(5,(float)0.40)
+            });
+        GetSkillObject("Charm").SetBaseValue(
+            new List<Attrib>() { 
+                GetAttribObject("CHR"),
+                GetAttribObject("PER") 
+            }, new List<Vector2>() {
+                new Vector2(7,(float)0.60),
+                new Vector2(4,(float)0.40)
+            });
+        GetSkillObject("Rhetoric").SetBaseValue(
+            new List<Attrib>() { 
+                GetAttribObject("CHR"),
+                GetAttribObject("PER") 
+            }, new List<Vector2>() {
+                new Vector2(7,(float)0.60),
+                new Vector2(4,(float)0.40)
+            });
+        GetSkillObject("Intimidation").SetBaseValue(
+            new List<Attrib>() { 
+                GetAttribObject("CHR"),
+                GetAttribObject("INT") 
+            }, new List<Vector2>() {
+                new Vector2(7,(float)0.60),
+                new Vector2(4,(float)0.40)
+            });    
+    }
+    public void RestoreHealth() {
+        Health = MaxHealth;
+    }
+    public void RestoreHealth(float amount) {
+        Health += amount;
+    }
     public void Init() {
-        _maxHealth = GetAttrib("VIT")*10+_bonusHealth;
+        _maxHealth = GetAttribValue("VIT")*10 + _bonusHealth;
         _name = this.name;
         isDead = false;
-        Health = MaxHealth;
+        RestoreHealth();
+        UpdateBaseSkillValues();
+        foreach (Skill skill in Skills) {
+            skill.Init();
+        }
     }
 }
