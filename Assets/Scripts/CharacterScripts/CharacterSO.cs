@@ -13,13 +13,15 @@ public class CharacterSO : ScriptableObject, IDamagable
     //!naming convention for attributes is a 3 letter abbreviation in all caps
     public List<Attrib> Attributes = new List<Attrib>(){
         new Attrib("STR"),
+        new Attrib("FOC"),
         new Attrib("INT"),
         new Attrib("REF"),
         new Attrib("AGI"),
         new Attrib("VIT"),
         new Attrib("PER"),
         new Attrib("CHR"),
-        new Attrib("LCK")};
+        new Attrib("LCK"),
+        };
     //!naming convention is one capitalized word
     [SerializeField] public List<Skill> Skills = new List<Skill>(){};
     private float _bonusHealth = 1;
@@ -60,65 +62,65 @@ public class CharacterSO : ScriptableObject, IDamagable
     //! using this will reset all attributes to 4
     public void CreateAttributes() {
         Attributes = new List<Attrib>();
-        Attributes.Add(new Attrib("STR"));//strength
-        Attributes.Add(new Attrib("INT"));//intelligence
-        Attributes.Add(new Attrib("REF"));//reflex
-        Attributes.Add(new Attrib("AGI"));//agility
-        Attributes.Add(new Attrib("VIT"));//vitality
-        Attributes.Add(new Attrib("PER"));//perception
-        Attributes.Add(new Attrib("CHR"));//Charisma
-        Attributes.Add(new Attrib("LCK"));//luck
+        Attributes.Add(new Attrib("STR"));//strength        //? 3-3* 1-1* total per point 10
+        Attributes.Add(new Attrib("FOC"));//focus           //? 1-4* 2-2* 4-1* total per point 12
+        Attributes.Add(new Attrib("INT"));//Intelligence    //? 1-4* 3-3* 1-1* total per point 14
+        Attributes.Add(new Attrib("REF"));//reflex          //? 1-3* 2-2* 3-1* total per point 10
+        Attributes.Add(new Attrib("VIT"));//vitality        //? 3-2* 2-1* total per point 7 
+        Attributes.Add(new Attrib("PER"));//perception      //? 2-3* 2-2* 1-1*  total per point 11
+        Attributes.Add(new Attrib("CHR"));//Charisma        //? 2-3* 2-2* total per point 10
+        Attributes.Add(new Attrib("LCK"));//luck            //? not used for skills
     }
     public void CreateSkills() {
         Skills = new List<Skill>();
         //combat skills
         Skills.Add(new Skill(this, "Sidearms", 
-            new List<string>(){"REF","AGI"},
+            new List<string>(){"REF","FOC"},
             new List<double>(){3,2}));
         Skills.Add(new Skill(this, "Rifles", 
-            new List<string>(){"PER","REF"},
-            new List<double>(){3,2}));
+            new List<string>(){"PER","FOC"},
+            new List<double>(){3, 2}));
         Skills.Add(new Skill(this, "Melee",
-            new List<string>(){"STR","AGI"},
+            new List<string>(){"STR","VIT"},
             new List<double>(){3,2}));
-        Skills.Add(new Skill(this, "Heavy Weaponry",
+        Skills.Add(new Skill(this, "Heavy Weaponry", //? i realize this is the same as meleebut i am losing my mind and need to stop staring at this screen and make a commit
             new List<string>() {"STR","VIT"},
             new List<double>() {3,2}));
         Skills.Add(new Skill(this, "High-Tech",
-            new List<string>(){"INT","PER","REF"},
-            new List<double>(){3,1.5,.5}));
+            new List<string>(){"INT","PER","FOC"},
+            new List<double>(){3,1,1}));
         Skills.Add(new Skill(this, "Ballistics",
             new List<string>(){"VIT","REF","STR"},
             new List<double>(){2,2,1}));
         Skills.Add(new Skill(this, "Explosives",
-            new List<string>(){"PER","INT","REF"},
-            new List<double>(){3,1.5,.5}));
+            new List<string>(){"PER","FOC","REF"},
+            new List<double>(){3,1,1}));
         //ship skills
         Skills.Add(new Skill(this, "Piloting",
-            new List<string>(){"PER","REF"},
-            new List<double>(){3,2}));
-        Skills.Add(new Skill(this, "Leadership",
-            new List<string>(){"PER","REF"},
-            new List<double>(){3,2}));
-        Skills.Add(new Skill(this, "Medical",
-            new List<string>(){"PER","REF"},
-            new List<double>(){3,2}));
+            new List<string>(){"PER","REF","VIT"},
+            new List<double>(){2,2,1}));
+        Skills.Add(new Skill(this, "Leadership",            
+            new List<string>(){"CHR","FOC","INT"},
+            new List<double>(){3,1,1}));
+        Skills.Add(new Skill(this, "Medical", 
+            new List<string>(){"INT","FOC","REF"},
+            new List<double>(){3,1,1}));
         //crafting skills
-        Skills.Add(new Skill(this, "Chemistry",
-            new List<string>(){"PER","REF"},
-            new List<double>(){3,2}));
+        Skills.Add(new Skill(this, "Chemistry", 
+            new List<string>(){"INT","REF"},
+            new List<double>(){4,1}));
         Skills.Add(new Skill(this, "Engineering",
-            new List<string>(){"PER","REF"},
-            new List<double>(){3,2}));
+            new List<string>(){"FOC","VIT"},
+            new List<double>(){4,1}));
         //social skills
-        Skills.Add(new Skill(this, "Rhetoric",
-            new List<string>(){"PER","REF"},
+        Skills.Add(new Skill(this, "Rhetoric", 
+            new List<string>(){"INT","CHR"},
             new List<double>(){3,2}));
         Skills.Add(new Skill(this, "Charm",
-            new List<string>(){"PER","REF"},
+            new List<string>(){"CHR","PER"},
             new List<double>(){3,2}));
         Skills.Add(new Skill(this, "Intimidation",
-            new List<string>(){"PER","REF"},
+            new List<string>(){"STR","CHR"},
             new List<double>(){3,2}));
         /*new skill copy paste blueprint
         Skill.Add(new Skill(this, "",
@@ -133,13 +135,11 @@ public class CharacterSO : ScriptableObject, IDamagable
         _name = this.name;
         isDead = false;
         RestoreHealth();
-        UpdateBaseSkillValues();
         foreach (Skill skill in Skills) {
             skill.Init();
         }
     }
-
-    //QOL function to get a stat's value
+    // * Look-up functions
     public int GetAttribValue(string name)
     {
         Attrib targetAttribute = this.Attributes.Find(x => x.Name == name);
@@ -156,7 +156,6 @@ public class CharacterSO : ScriptableObject, IDamagable
         if (targetAttribute != null) {return targetAttribute;}
         throw new System.Exception($"CharacterSO Error: skill {name} not found");
     }
-    //! rules of thumb for setting the paramaters: attributes with high check thresholds should be weighted more
     public void UpdateBaseSkillValues() {
         foreach (Skill skill in Skills) {
             skill.SetBaseValue();
