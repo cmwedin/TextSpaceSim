@@ -1,22 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 [System.Serializable] public class Skill : Stat
 {
     private int _defaultValue = 25;
     private int _baseValue;
-    public Skill(string name) : base(name){
-        Value = 10;
+    public List<Attrib> governingAttributes = new List<Attrib>(){};
+    public Dictionary<Attrib, double> governingAttributesWeightDict = new Dictionary<Attrib, double>();
+    public Skill(CharacterSO character,string name, List<string> attribNames, List<double> weights) : base(name) {
+        // * we have to use a list of string names instead of a string of attributes because the attribute objects are accessed by a function call in CharacterSO
+        //* doing that here makes calling the constructor more readable
+        if(weights.Sum() != 5 || weights.Count != attribNames.Count) {
+            throw new System.Exception($"Error constructing Skill {name} - attribute weights invalid");
+        } else { //using the else is probably not needed because of the exception but better safe then sorry
+            foreach (string _name in attribNames) {
+                governingAttributes.Add(item: character.GetAttribObject(_name));
+            }
+            for (int _ = 0; _ < governingAttributes.Count; _++) {
+                governingAttributesWeightDict.Add(governingAttributes[_],weights[_]);
+            SetBaseValue();
+            }
+        }
     }
-    public Skill(string name, int val) : base(name, val) {}
-    public override int Value { 
-        get => base.Value; 
-        set { 
-            if(Value>100) {
-                UnityEngine.Debug.Log("Cannot set skills higher than 100");
-                Value = 100; }
-            base.Value = value; }
+    public void SetBaseValue() {
+        double doubleSum = 0;
+        foreach (KeyValuePair<Attrib, double> attribParam in governingAttributesWeightDict) {
+            Attrib attrib = attribParam.Key;
+            double weight = attribParam.Value;
+            doubleSum += (attrib.Value * weight);
+        }
+        _baseValue = (int)doubleSum;
     }
+/*  //*outdated code currently kept for reference, initialize base values with the above method   
     public void SetBaseValue(Attrib attrib, int checkThreshold) {
         _baseValue = (int)(_defaultValue * attrib.Check(checkThreshold));
     }
@@ -40,7 +56,7 @@ using UnityEngine;
         }
         UnityEngine.Debug.Log($"{Name} CheckFactor is {totalCheckFactor}");
         _baseValue = (int)(_defaultValue * totalCheckFactor);
-    }
+    } */
     public void Init() {
         if(_baseValue == 0) {
            Value = _defaultValue;
