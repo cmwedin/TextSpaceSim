@@ -11,16 +11,7 @@ public class CharacterSO : ScriptableObject, IDamagable
     public event DeathAction OnDeath;
 
     //!naming convention for attributes is a 3 letter abbreviation in all caps
-    public List<Attrib> Attributes = new List<Attrib>(){
-        /*new Attrib("STR"),
-        new Attrib("FOC"),
-        new Attrib("INT"),
-        new Attrib("REF"),
-        new Attrib("VIT"),
-        new Attrib("PER"),
-        new Attrib("CHR"),
-        new Attrib("LCK"),*/
-        };
+    public List<Attrib> Attributes = new List<Attrib>(){};
     //!naming convention is one capitalized word
     [SerializeField] public List<Skill> Skills = new List<Skill>(){};
     private float _bonusHealth = 1;
