@@ -11,6 +11,13 @@ public class CharacterCustomEditor : Editor {
     protected SerializedProperty Skills;
     protected SerializedProperty MaxHealth;
     protected SerializedProperty Health;
+    protected CharacterSO targetSO //! only directly access this when necessary
+        { get { 
+            UnityEngine.Debug.LogWarning("Editor accessing targetSO directly, are you sure you need to be doing this?");
+            return targetSO;
+        } private set {
+            targetSO = value;
+        }} 
 
 
     bool showAttributes = true;
@@ -22,6 +29,7 @@ public class CharacterCustomEditor : Editor {
         Skills = serializedObject.FindProperty("Skills");
         MaxHealth = serializedObject.FindProperty("_maxHealth");
         Health = serializedObject.FindProperty("_health");
+        target = (CharacterSO)serializedObject.targetObject;
     }
     public override void OnInspectorGUI() {
         /*if(GUILayout.Button("Open Editor Window")) {
@@ -61,7 +69,7 @@ public class CharacterCustomEditor : Editor {
             
         }
         EditorGUILayout.EndFoldoutHeaderGroup();
-        //TODO: if(GUILayout.Button("Initialize")) {call Character.SO.Init()}
+        if(GUILayout.Button("Initialize")) {InitializeCharacterSO();}
         serializedObject.ApplyModifiedProperties();
     }
     //probably needs input handeling 
@@ -72,6 +80,9 @@ public class CharacterCustomEditor : Editor {
     }
     void DebugMessage(string msg) {
         if(debug) {UnityEngine.Debug.Log(msg);}
+    }
+    void InitializeCharacterSO() {
+        targetSO.Init();
     }
 }
 /*public class AssetHandler
