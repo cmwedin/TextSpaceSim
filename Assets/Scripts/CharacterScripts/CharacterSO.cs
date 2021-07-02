@@ -16,7 +16,6 @@ public class CharacterSO : ScriptableObject, IDamagable
         new Attrib("FOC"),
         new Attrib("INT"),
         new Attrib("REF"),
-        new Attrib("AGI"),
         new Attrib("VIT"),
         new Attrib("PER"),
         new Attrib("CHR"),
@@ -61,14 +60,14 @@ public class CharacterSO : ScriptableObject, IDamagable
     
     //! using this will reset all attributes to 4
     public void CreateAttributes() {
-        Attributes = new List<Attrib>();
-        Attributes.Add(new Attrib("STR"));//strength        //? 3-3* 1-1* total per point 10
-        Attributes.Add(new Attrib("FOC"));//focus           //? 1-4* 2-2* 4-1* total per point 12
-        Attributes.Add(new Attrib("INT"));//Intelligence    //? 1-4* 3-3* 1-1* total per point 14
-        Attributes.Add(new Attrib("REF"));//reflex          //? 1-3* 2-2* 3-1* total per point 10
-        Attributes.Add(new Attrib("VIT"));//vitality        //? 3-2* 2-1* total per point 7 
-        Attributes.Add(new Attrib("PER"));//perception      //? 2-3* 2-2* 1-1*  total per point 11
-        Attributes.Add(new Attrib("CHR"));//Charisma        //? 2-3* 2-2* total per point 10
+        Attributes = new List<Attrib>();                    //? after a lot of not especially productive time spent tweaking i think this if fine balance
+        Attributes.Add(new Attrib("STR"));//strength        //? 2-3* 1-2* 1-1* total per point 9
+        Attributes.Add(new Attrib("FOC"));//focus           //? 1-3* 2-2* 4-1* total per point 11
+        Attributes.Add(new Attrib("INT"));//Intelligence    //? 3-3* 1-2* 1-1* total per point 12
+        Attributes.Add(new Attrib("REF"));//reflex          //? 1-3* 3-2* 1-1* total per point 10
+        Attributes.Add(new Attrib("VIT"));//vitality        //? 1-3* 3-2* 2-1* total per point 10 
+        Attributes.Add(new Attrib("PER"));//perception      //? 2-3* 1-2* 2-1*  total per point 11
+        Attributes.Add(new Attrib("CHR"));//Charisma        //? 2-3* 2-2* 1-1* total per point 11
         Attributes.Add(new Attrib("LCK"));//luck            //? not used for skills
     }
     public void CreateSkills() {
@@ -83,12 +82,12 @@ public class CharacterSO : ScriptableObject, IDamagable
         Skills.Add(new Skill(this, "Melee",
             new List<string>(){"STR","VIT"},
             new List<double>(){3,2}));
-        Skills.Add(new Skill(this, "Heavy Weaponry", //? i realize this is the same as meleebut i am losing my mind and need to stop staring at this screen and make a commit
-            new List<string>() {"STR","VIT"},
+        Skills.Add(new Skill(this, "Heavy Weaponry", //? maybe too similar to Melee
+            new List<string>() {"VIT","STR"},
             new List<double>() {3,2}));
         Skills.Add(new Skill(this, "High-Tech",
-            new List<string>(){"INT","PER","FOC"},
-            new List<double>(){3,1,1}));
+            new List<string>(){"INT","REF","FOC"},
+            new List<double>(){2,2,1}));
         Skills.Add(new Skill(this, "Ballistics",
             new List<string>(){"VIT","REF","STR"},
             new List<double>(){2,2,1}));
@@ -103,15 +102,15 @@ public class CharacterSO : ScriptableObject, IDamagable
             new List<string>(){"CHR","FOC","INT"},
             new List<double>(){3,1,1}));
         Skills.Add(new Skill(this, "Medical", 
-            new List<string>(){"INT","FOC","REF"},
+            new List<string>(){"INT","FOC","CHR"},
             new List<double>(){3,1,1}));
         //crafting skills
         Skills.Add(new Skill(this, "Chemistry", 
-            new List<string>(){"INT","REF"},
-            new List<double>(){4,1}));
+            new List<string>(){"INT","PER"},
+            new List<double>(){3,2}));
         Skills.Add(new Skill(this, "Engineering",
             new List<string>(){"FOC","VIT"},
-            new List<double>(){4,1}));
+            new List<double>(){3,2}));
         //social skills
         Skills.Add(new Skill(this, "Rhetoric", 
             new List<string>(){"INT","CHR"},
