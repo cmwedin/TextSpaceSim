@@ -128,7 +128,7 @@ public class CharacterSO : ScriptableObject, IDamagable
         */
     }
     public void Init() {
-        //CreateAttributes();
+        CreateAttributes();
         CreateSkills();
         _maxHealth = GetAttribValue("VIT")*10 + _bonusHealth;
         _name = this.name;
