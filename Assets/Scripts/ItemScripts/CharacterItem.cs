@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class CharacterItem : Item
 {
-    //! its possible this violates LSP but i think its fine
+    //! its possible this violates LSP - i think its fine but double check best practices at some point
     public override bool GiveTo(Inventory inventory, int qty = 1) {
         if(inventory.Owner is CharacterSO) {
             return base.GiveTo(inventory,qty);
