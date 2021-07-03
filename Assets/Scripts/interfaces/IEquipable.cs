@@ -4,5 +4,5 @@ using UnityEngine;
 
 interface IEquipable
 {
-    //TODO
+    public void Equip(Inventory targetInventory);
 }

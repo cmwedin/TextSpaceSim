@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IUseable
 {
-    //TODO
+    public void Use();
 }
