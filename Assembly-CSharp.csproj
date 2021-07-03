@@ -40,6 +40,7 @@
      <Compile Include="Assets\Scripts\InkScripts\InkManager.cs" />
      <Compile Include="Assets\Scripts\CharacterScripts\Attrib.cs" />
      <Compile Include="Assets\Scripts\interfaces\IDamagable.cs" />
+     <Compile Include="Assets\Scripts\ItemScripts\Item.cs" />
      <Compile Include="Assets\Scripts\ShipScripts\Ship.cs" />
      <Compile Include="Assets\Scripts\ShipScripts\ShipComponent.cs" />
      <Compile Include="Assets\Scripts\ShipScripts\ShipComponentSlot.cs" />
