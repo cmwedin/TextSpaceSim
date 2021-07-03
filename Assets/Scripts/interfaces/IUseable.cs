@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IUseable
+public interface IUseable<T>
 {
-    public void Use();
+    public void Use(T user);
 }

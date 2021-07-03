@@ -9,11 +9,11 @@ public class CharacterSO : ScriptableObject, IDamagable
         = false;
     public delegate void DeathAction();
     public event DeathAction OnDeath;
-
+    //* character property collections
     //!naming convention for attributes is a 3 letter abbreviation in all caps
-    public List<Attrib> Attributes = new List<Attrib>(){};
-    //!naming convention is one capitalized word
+    [SerializeField] public List<Attrib> Attributes = new List<Attrib>(){};
     [SerializeField] public List<Skill> Skills = new List<Skill>(){};
+    public Inventory Inventory;
     private float _bonusHealth = 1;
     [SerializeField] private float _health;
     [SerializeField] private float _maxHealth;
@@ -121,6 +121,7 @@ public class CharacterSO : ScriptableObject, IDamagable
     public void Init() {
         CreateAttributes();
         CreateSkills();
+        Inventory = new Inventory(this);
         _maxHealth = GetAttribValue("VIT")*10 + _bonusHealth;
         _name = this.name;
         isDead = false;

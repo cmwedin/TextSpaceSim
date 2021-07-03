@@ -10,8 +10,9 @@ public abstract class Item : ScriptableObject
     public float Weight { get => _weight;}
     [SerializeField] private float _value;
     public float Value { get => _value;} 
-    public void GiveTo(Inventory inventory, int qty = 1) {
+    public virtual bool GiveTo(Inventory inventory, int qty = 1) {
         inventory.contents.Add(this,qty);
+        return true;
     }
     public bool RemoveFrom(Inventory inventory, int qtyToRemove = 1) {
         if (inventory.contents.TryGetValue(this, out int targetQty)) {
