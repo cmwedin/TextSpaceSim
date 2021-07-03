@@ -48,6 +48,11 @@
      <Compile Include="Assets\Scripts\CharacterScripts\Stat.cs" />
      <Compile Include="Assets\Scripts\CharacterScripts\Skill.cs" />
      <Compile Include="Assets\Scripts\InkScripts\QuitGameOnKeypress.cs" />
+     <Compile Include="Assets\Scripts\ItemScripts\CharacterItem.cs" />
+     <Compile Include="Assets\Scripts\interfaces\IEquipable.cs" />
+     <Compile Include="Assets\Scripts\interfaces\IUseable.cs" />
+     <Compile Include="Assets\Scripts\interfaces\IConsumable.cs" />
+     <Compile Include="Assets\Scripts\ItemScripts\Inventory.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/2020.3.12f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

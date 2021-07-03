@@ -14,21 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Attributes:
   - _name: STR
-    _value: 4
+    _value: 1
   - _name: INT
-    _value: 6
+    _value: 1
   - _name: REF
-    _value: 5
+    _value: 1
   - _name: AGI
-    _value: 3
+    _value: 1
   - _name: VIT
-    _value: 5
+    _value: 1
   - _name: PER
-    _value: 5
+    _value: 1
   - _name: CHR
-    _value: 3
+    _value: 1
   - _name: LCK
-    _value: 5
+    _value: 1
   Skills:
   - _name: Sidearms
     _value: 21

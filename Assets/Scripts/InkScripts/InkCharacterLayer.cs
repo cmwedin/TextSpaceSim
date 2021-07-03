@@ -48,10 +48,6 @@ public class InkCharacterLayer : MonoBehaviour
     
     public void Init() {
         BindInkExternals();
-        foreach (CharacterSO car in CharacterDatabase)
-        {
-            car.Init();
-        }
     }
     private void BindInkExternals() {
         //binds ink external functions relevant to the class

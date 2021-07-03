@@ -10,4 +10,23 @@ public abstract class Item : ScriptableObject
     public float Weight { get => _weight;}
     [SerializeField] private float _value;
     public float Value { get => _value;} 
+    public void GiveTo(Inventory inventory, int qty = 1) {
+        inventory.contents.Add(this,qty);
+    }
+    public bool RemoveFrom(Inventory inventory, int qtyToRemove = 1) {
+        if (inventory.contents.TryGetValue(this, out int targetQty)) {
+            targetQty -= qtyToRemove;
+            if(targetQty < 0) {
+                UnityEngine.Debug.LogWarning($"target inventory does not contain {qtyToRemove} {Name} ");
+                return false;
+            } else if (targetQty == 0) {
+                return inventory.contents.Remove(this);
+            } else {
+                inventory.contents[this] = targetQty;
+                return true;
+            }
+        }    
+        UnityEngine.Debug.LogWarning($"target inventory does not contain item {Name} to remove");
+        return false;
+    }
 }
