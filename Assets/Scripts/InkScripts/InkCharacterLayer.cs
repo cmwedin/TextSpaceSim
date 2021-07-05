@@ -38,13 +38,27 @@ public class InkCharacterLayer : MonoBehaviour
     private void TargetKilled() {
         UnityEngine.Debug.Log($"Character Layer's current target {currentTarget.Name} was killed");
     }
-    //CharacterSO.GetAttrib handles bad inputs on its own so this isnt really needed 
-    //but it allows for some leiniency in the inputs of the ink layer functions
+    //CharacterSO.GetAttrib handles bad inputs on its own so this isn't really needed 
+    //but it allows for some leniency in the inputs of the ink layer functions
     private int GetAttrib(string name) {
          
         name = name.Trim(); 
         if(name.Length != 3) throw new System.Exception($"{name} is not a valid attribute name, see CharacterSO.Attributes documentation"); 
         return currentTarget.GetAttribValue(name.ToUpper());
+    }
+
+    //! Seperation of concerns might mean these functions should be moved to ItemLayer
+    //! but since these work with CharacterSO's and CharacterItems I'm keeping them here for now
+    //TODO reevaluate where they should be in the future
+    private void PickUp(string itemName, CharacterSO charToGive = currentPlayer, int qty = 1) {
+        targetItem = Manager.ItemLayer.FindItem(itemName);
+    }
+    private void TakeFrom(string itemName, CharacterSO charToTake = currentTarget, CharacterSO CharToGive = currentPlayer, int qty = 1) {
+        targetItem = Manager.ItemLayer.ItemLayer.FindItem(itemName);
+        if (itemName.RemoveFrom(charToTake.inventory, qty)) {
+            itemName.GiveTo(CharToGive,qty);
+        }
+        return;
     }
     
     public void Init() {

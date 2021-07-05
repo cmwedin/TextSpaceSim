@@ -13,7 +13,7 @@ public class InkManager : MonoBehaviour {
 
 	//other monobehavior refs
 	public InkCharacterLayer CharacterLayer;
-
+	public InkItemLayer ItemLayer;
 	
 	[SerializeField] private TextAsset inkJSONAsset = null;
 	public Story story;
@@ -30,9 +30,11 @@ public class InkManager : MonoBehaviour {
 		//assigns references for communicating data, all done here to avoid race conditions
 		//gets the other ink layers first
 		CharacterLayer = gameObject.GetComponent<InkCharacterLayer>();
+		ItemLayer = gameObject.GetComponent<InkItemLayer>();
 		//connects them to itself
 		CharacterLayer.Manager = this;
-		//creat the story object here so other layers can use it for initializing
+		InkItemLayer.Manager = this;
+		//create the story object here so other layers can use it for initializing
 		story = new Story (inkJSONAsset.text);
 		CharacterLayer.Init();
 		//runs the main function
