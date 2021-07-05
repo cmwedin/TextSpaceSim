@@ -8,10 +8,12 @@ public class InkCharacterLayer : MonoBehaviour
     //in principle this should be a hash set but Find is a very usefull method for getting the correct SO from the string name
     [SerializeField] List<CharacterSO> CharacterDatabase; //TODO: populate this list automatically
     public InkManager Manager;
-    private CharacterSO currentTarget;
-    private CharacterSO prevTarget;
-    [SerializeField]private PlayerSO currentPlayer; //TODO: make a save and load system that assigns the current player automatically
-
+    private CharacterSO _currentTarget;
+    private CharacterSO _prevTarget;
+    [SerializeField]private PlayerSO _currentPlayer; //TODO: make a save and load system that assigns the current player automatically
+    public CharacterSO CurrentTarget { get => _currentTarget;}
+    public CharacterSO PrevTarget {get => _prevTarget;}
+    public PlayerSO CurrentPlayer { get => _currentPlayer;}
     //callback functions
     void Awake () {
     }
@@ -19,9 +21,9 @@ public class InkCharacterLayer : MonoBehaviour
     void LoadCharacterSO(string targetName) {
         CharacterSO targ = GetCharacterSOByName(targetName);
         if(targ != null) { 
-            if (prevTarget != null) ClearTargetEvents();
-            prevTarget = currentTarget;
-            currentTarget = targ;
+            if (_prevTarget != null) ClearTargetEvents();
+            _prevTarget = _currentTarget;
+            _currentTarget = targ;
             SetTargetEvents(); }
         else throw new System.Exception($"Character load failed, target {targetName} not found");
     }
@@ -30,13 +32,13 @@ public class InkCharacterLayer : MonoBehaviour
         return CharacterDatabase.Find(x => x.name == name);
     }
     private void ClearTargetEvents() {
-        currentTarget.OnDeath -= TargetKilled;
+        _currentTarget.OnDeath -= TargetKilled;
     }
     private void SetTargetEvents() {
-        currentTarget.OnDeath += TargetKilled;
+        _currentTarget.OnDeath += TargetKilled;
     }
     private void TargetKilled() {
-        UnityEngine.Debug.Log($"Character Layer's current target {currentTarget.Name} was killed");
+        UnityEngine.Debug.Log($"Character Layer's current target {_currentTarget.Name} was killed");
     }
     //CharacterSO.GetAttrib handles bad inputs on its own so this isn't really needed 
     //but it allows for some leniency in the inputs of the ink layer functions
@@ -44,19 +46,22 @@ public class InkCharacterLayer : MonoBehaviour
          
         name = name.Trim(); 
         if(name.Length != 3) throw new System.Exception($"{name} is not a valid attribute name, see CharacterSO.Attributes documentation"); 
-        return currentTarget.GetAttribValue(name.ToUpper());
+        return _currentTarget.GetAttribValue(name.ToUpper());
     }
 
     //! Seperation of concerns might mean these functions should be moved to ItemLayer
     //! but since these work with CharacterSO's and CharacterItems I'm keeping them here for now
     //TODO reevaluate where they should be in the future
-    private void PickUp(string itemName, CharacterSO charToGive = currentPlayer, int qty = 1) {
-        targetItem = Manager.ItemLayer.FindItem(itemName);
+    private void PickUp(string itemName, CharacterSO charToGive = null, int qty = 1) {
+        charToGive = charToGive ?? _currentPlayer;
+        Item targetItem = Manager.ItemLayer.FindItem(itemName);
     }
-    private void TakeFrom(string itemName, CharacterSO charToTake = currentTarget, CharacterSO CharToGive = currentPlayer, int qty = 1) {
-        targetItem = Manager.ItemLayer.ItemLayer.FindItem(itemName);
-        if (itemName.RemoveFrom(charToTake.inventory, qty)) {
-            itemName.GiveTo(CharToGive,qty);
+    private void TakeFrom(string itemName, CharacterSO charToTake = null, CharacterSO charToGive = null, int qty = 1) {
+        charToTake = charToTake ?? _currentTarget;
+        charToGive = charToGive ?? _currentPlayer;
+        Item targetItem = Manager.ItemLayer.FindItem(itemName);
+        if (targetItem.RemoveFrom(charToTake.Inventory, qty)) {
+            targetItem.GiveTo(charToGive.Inventory,qty);
         }
         return;
     }
@@ -68,10 +73,10 @@ public class InkCharacterLayer : MonoBehaviour
         //binds ink external functions relevant to the class
         Manager.story.BindExternalFunction("LoadCharacter", (string name) => LoadCharacterSO(name));
         Manager.story.BindExternalFunction("GetAttrib", (string name) => GetAttrib(name));
-        Manager.story.BindExternalFunction("GetHealth", () => currentTarget.Health);
-        Manager.story.BindExternalFunction("GetName", () => currentTarget.name);
-        Manager.story.BindExternalFunction("Damage", (float dmg) => currentTarget.Damage(dmg));
-        Manager.story.BindExternalFunction("IsDead", () => currentTarget.isDead);
+        Manager.story.BindExternalFunction("GetHealth", () => _currentTarget.Health);
+        Manager.story.BindExternalFunction("GetName", () => _currentTarget.name);
+        Manager.story.BindExternalFunction("Damage", (float dmg) => _currentTarget.Damage(dmg));
+        Manager.story.BindExternalFunction("IsDead", () => _currentTarget.isDead);
     }
 
 }

@@ -217,9 +217,9 @@ RectTransform:
   m_Father: {fileID: 1908123727}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 500, y: -295}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 436.2, y: 0}
   m_SizeDelta: {x: 346, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1104190023
@@ -311,10 +311,10 @@ RectTransform:
   m_Father: {fileID: 1908123727}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 500, y: -285}
-  m_SizeDelta: {x: 1000, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 436.2, y: 0}
+  m_SizeDelta: {x: 872.4, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1300920512
 MonoBehaviour:
@@ -498,9 +498,9 @@ RectTransform:
   m_Father: {fileID: 1908123727}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 500, y: -275}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 436.2, y: 0}
   m_SizeDelta: {x: 365, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1767420454
@@ -756,6 +756,7 @@ GameObject:
   - component: {fileID: 2009679604}
   - component: {fileID: 2009679606}
   - component: {fileID: 2009679607}
+  - component: {fileID: 2009679608}
   m_Layer: 0
   m_Name: Scene Controller
   m_TagString: Untagged
@@ -776,6 +777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CharacterLayer: {fileID: 0}
+  ItemLayer: {fileID: 0}
   inkJSONAsset: {fileID: 4900000, guid: 28ed4c57f59d61b4db3afbb3416ae984, type: 3}
   canvas: {fileID: 1908123726}
   textPrefab: {fileID: 11456674, guid: 1aab6ef84d87c416f8f0b3e1ef3d77d2, type: 3}
@@ -824,3 +826,18 @@ MonoBehaviour:
   CharacterDatabase:
   - {fileID: 11400000, guid: ef853b7f6f0bbb3438faf29756bb351f, type: 2}
   Manager: {fileID: 0}
+  _currentPlayer: {fileID: 0}
+--- !u!114 &2009679608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2009679603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3081e52088393174da66387616e1bf02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Manager: {fileID: 0}
+  ItemDatabase: []

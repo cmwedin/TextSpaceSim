@@ -11,9 +11,9 @@ public class InkManager : MonoBehaviour {
     public static event Action<Story> OnCreateStory;
 	public static event TurnAction OnTurn;
 
-	//other monobehavior refs
-	public InkCharacterLayer CharacterLayer;
-	public InkItemLayer ItemLayer;
+	//other monobehavior refs //? assigned in awake
+	public InkCharacterLayer CharacterLayer; 
+	public InkItemLayer ItemLayer; 
 	
 	[SerializeField] private TextAsset inkJSONAsset = null;
 	public Story story;
@@ -33,7 +33,7 @@ public class InkManager : MonoBehaviour {
 		ItemLayer = gameObject.GetComponent<InkItemLayer>();
 		//connects them to itself
 		CharacterLayer.Manager = this;
-		InkItemLayer.Manager = this;
+		ItemLayer.Manager = this;
 		//create the story object here so other layers can use it for initializing
 		story = new Story (inkJSONAsset.text);
 		CharacterLayer.Init();
@@ -49,7 +49,7 @@ public class InkManager : MonoBehaviour {
 	// Saves the current story state to a json stored in the current PlayerSO
 	void SaveStory () {
 		string saveData = story.state.ToJson();
-		InkCharacterLayer.currentPlayerSO.SaveStory(saveData);
+		CharacterLayer.CurrentPlayer.SaveStory(saveData);
 	}
 	
 	// This is the main function called every time the story changes. It does a few things:

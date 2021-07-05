@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Collections.Generic;
 using Ink.Runtime;
 public class InkItemLayer : MonoBehaviour {
     public InkManager Manager;
