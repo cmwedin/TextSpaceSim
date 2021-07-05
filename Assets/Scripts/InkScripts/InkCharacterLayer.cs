@@ -10,6 +10,7 @@ public class InkCharacterLayer : MonoBehaviour
     public InkManager Manager;
     private CharacterSO currentTarget;
     private CharacterSO prevTarget;
+    [SerializeField]private PlayerSO currentPlayer; //TODO: make a save and load system that assigns the current player automatically
 
     //callback functions
     void Awake () {

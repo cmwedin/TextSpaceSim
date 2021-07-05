@@ -44,6 +44,11 @@ public class InkManager : MonoBehaviour {
         if(OnCreateStory != null) OnCreateStory(story);
 		RefreshView();
 	}
+	// Saves the current story state to a json stored in the current PlayerSO
+	void SaveStory () {
+		string saveData = story.state.ToJson();
+		InkCharacterLayer.currentPlayerSO.SaveStory(saveData);
+	}
 	
 	// This is the main function called every time the story changes. It does a few things:
 	// Destroys all the old content and choices.
