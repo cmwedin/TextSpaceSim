@@ -10,6 +10,7 @@ public class CharacterCustomEditor : Editor {
     protected SerializedProperty Name;
     protected SerializedProperty Skills;
     protected SerializedProperty inventory;
+    protected SerializedProperty InventoryContents;
     protected SerializedProperty MaxHealth;
     protected SerializedProperty Health;
     private CharacterSO _targetSO;
@@ -29,17 +30,18 @@ public class CharacterCustomEditor : Editor {
         MaxHealth = serializedObject.FindProperty("_maxHealth");
         Health = serializedObject.FindProperty("_health");
         inventory = serializedObject.FindProperty("inventory");
+        InventoryContents = FindChildProperty(inventory,"contents");
         _targetSO = (CharacterSO)serializedObject.targetObject;
     }
     public override void OnInspectorGUI() {
-        /*if(GUILayout.Button("Open Editor Window")) {
-            CharacterCustomEditorWindow.Open((CharacterSO)target);
-        }*/
-        //DrawDefaultInspector();
         serializedObject.Update();
+        // ? turns on console callouts of property lookup paths and enables the initialize button
         debug = EditorGUILayout.Toggle("Debug Editor",debug);
+        // * Name & Health * //
         GUILayout.Label(Name.stringValue ?? "Error Name Null");
         EditorGUILayout.Slider("Health", Health.floatValue, 0, MaxHealth.floatValue);
+        
+        // * Attributes Section * //
         showAttributes = EditorGUILayout.BeginFoldoutHeaderGroup(showAttributes, "Attributes");
         if(showAttributes) {
             int attribMin = 1;
@@ -54,6 +56,8 @@ public class CharacterCustomEditor : Editor {
             GUILayout.EndVertical();
         }
         EditorGUILayout.EndFoldoutHeaderGroup();
+        
+        // * Skills Section * //
         showSkills = EditorGUILayout.BeginFoldoutHeaderGroup(showSkills, "Skills");
         if(showSkills) {
             int skillMin = 1;
@@ -68,29 +72,44 @@ public class CharacterCustomEditor : Editor {
             GUILayout.EndVertical();
             
         }
+        
+        // * Inventory Section * //
         EditorGUILayout.EndFoldoutHeaderGroup();
         showInv = EditorGUILayout.BeginFoldoutHeaderGroup(showInv, "Inventory");
         if(showInv) {
-            foreach (SerializedProperty itemEntry in FindChildProperty(inventory,"contents")) {
-                SerializedProperty Item = FindChildProperty(itemEntry,"Key");
-                SerializedProperty Qty = FindChildProperty(itemEntry,"Value");
-            }     
+            // * button to add an item to the inventory
+            if (GUILayout.Button("Add Item")) {
+                string itemPath = EditorUtility.OpenFilePanel("Select Item","Assets/ScriptableObjects/Items/","asset");
+                if (itemPath.Length == 0) throw new UnityException("Error loaded item path empty");
+                Item item = AssetDatabase.LoadAssetAtPath<Item>(itemPath.Substring(itemPath.IndexOf("Assets")));
+                item.GiveTo(TargetSO.inventory);
+            }
+            SerializedProperty Items = FindChildProperty(InventoryContents,"_Keys");
+            SerializedProperty Qtys = FindChildProperty(InventoryContents,"_Values");      
+            for (int _ = 0; _ < Items.arraySize; _ ++) {
+                SerializedProperty item = Items.GetArrayElementAtIndex(_);
+                SerializedProperty qty = Qtys.GetArrayElementAtIndex(_);
+                GUILayout.BeginHorizontal();
+                GUILayout.Label($"{item.displayName}");
+                qty.intValue = EditorGUILayout.IntField(qty.intValue);
+                GUILayout.EndHorizontal();
+            }
         }
         EditorGUILayout.EndFoldoutHeaderGroup();
+        
+        // ! Initialize Button ! //
         if(debug){ 
             if(GUILayout.Button("Initialize")) {
                 if(UnityEditor.EditorUtility.DisplayDialog( $"Initialize {Name.stringValue}?",
                     "This will reset all values to that of a default CharacterSO. Are you sure you want to do this?",
-                    "Initialize","Cancel"
-                )
-                ) 
-                    {InitializeCharacterSO();
-                }
+                    "Initialize","Cancel" )
+                ) { 
+                    InitializeCharacterSO(); }
             }
         }
         serializedObject.ApplyModifiedProperties();
     }
-    //probably needs input handeling 
+    //TODO probably needs input handeling 
     SerializedProperty FindChildProperty(SerializedProperty parent, string path) {;
         string targetPath = $"{parent.propertyPath}.{path}";
         DebugMessage($"Looking up property at {targetPath}");
@@ -104,16 +123,3 @@ public class CharacterCustomEditor : Editor {
         TargetSO.Init();
     }
 }
-/*public class AssetHandler
-{
-    [OnOpenAsset()]
-    public static bool OpenEditor(int instanceId, int line) {
-        CharacterSO so = EditorUtility.InstanceIDToObject(instanceId) as CharacterSO;
-        if (so != null)
-        {
-            CharacterCustomEditorWindow.Open(so);
-            return true;
-        }
-        return false;
-    }
-}*/

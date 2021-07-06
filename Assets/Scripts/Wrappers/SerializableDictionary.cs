@@ -518,7 +518,7 @@ public class SerializableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
         private readonly SerializableDictionary<TKey, TValue> _Dictionary;
         private int _Version;
         private int _Index;
-        private KeyValuePair<TKey, TValue> _Current;
+        [SerializeField]private KeyValuePair<TKey, TValue> _Current;
  
         public KeyValuePair<TKey, TValue> Current
         {

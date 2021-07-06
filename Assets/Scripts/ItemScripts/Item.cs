@@ -4,8 +4,7 @@ using UnityEngine;
 
 public abstract class Item : ScriptableObject
 {
-    [SerializeField] private string _name;
-    public string Name { get => _name;} 
+    public string Name { get => this.name;} 
     [SerializeField] public float _weight;
     public float Weight { get => _weight;}
     [SerializeField] private float _value;
