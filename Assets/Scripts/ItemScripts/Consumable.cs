@@ -6,7 +6,7 @@ using UnityEngine;
 public class Consumable : CharacterItem, IUseable<CharacterSO>
 {
     public void Use(CharacterSO user) {
-        if (this.RemoveFrom(user.Inventory)) {
+        if (this.RemoveFrom(user.inventory)) {
             //TODO call item effect delegate
             UnityEngine.Debug.Log($"{user.Name} used one {Name}");
         }

@@ -13,7 +13,7 @@ public class CharacterSO : ScriptableObject, IDamagable
     //!naming convention for attributes is a 3 letter abbreviation in all caps
     [SerializeField] public List<Attrib> Attributes = new List<Attrib>(){};
     [SerializeField] public List<Skill> Skills = new List<Skill>(){};
-    public Inventory Inventory;
+    [SerializeField] public Inventory inventory; //? has a value set in init so we can use the this keyword in the constructor
     private float _bonusHealth = 1;
     [SerializeField] private float _health;
     [SerializeField] private float _maxHealth;
@@ -121,7 +121,7 @@ public class CharacterSO : ScriptableObject, IDamagable
     public void Init() {
         CreateAttributes();
         CreateSkills();
-        Inventory = new Inventory(this);
+        inventory = new Inventory(this);
         _maxHealth = GetAttribValue("VIT")*10 + _bonusHealth;
         _name = this.name;
         isDead = false;

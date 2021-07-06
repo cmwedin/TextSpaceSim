@@ -60,8 +60,8 @@ public class InkCharacterLayer : MonoBehaviour
         charToTake = charToTake ?? _currentTarget;
         charToGive = charToGive ?? _currentPlayer;
         Item targetItem = Manager.ItemLayer.FindItem(itemName);
-        if (targetItem.RemoveFrom(charToTake.Inventory, qty)) {
-            targetItem.GiveTo(charToGive.Inventory,qty);
+        if (targetItem.RemoveFrom(charToTake.inventory, qty)) {
+            targetItem.GiveTo(charToGive.inventory,qty);
         }
         return;
     }
