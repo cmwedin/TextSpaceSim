@@ -121,6 +121,7 @@ public class CharacterSO : ScriptableObject, IDamagable
     public void Init() {
         CreateAttributes();
         CreateSkills();
+        inventory.contents.Clear();
         inventory = new Inventory(this);
         _maxHealth = GetAttribValue("VIT")*10 + _bonusHealth;
         _name = this.name;

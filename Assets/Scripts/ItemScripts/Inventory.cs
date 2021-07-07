@@ -8,7 +8,8 @@ using UnityEngine;
 {
     public Inventory(ScriptableObject _owner) {
         Owner = _owner;
+        contents = new ItemQtyDict();
     }
     public ScriptableObject Owner; 
-    [SerializeField] public ItemQtyDict contents = new ItemQtyDict();
+    [SerializeField] public ItemQtyDict contents;
 }

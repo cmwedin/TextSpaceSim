@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Item : ScriptableObject
+[System.Serializable] public abstract class Item : ScriptableObject
 {
+    [SerializeField] private string _name;
     public string Name { get => this.name;} 
-    [SerializeField] public float _weight;
+    [SerializeField] private float _weight;
     public float Weight { get => _weight;}
     [SerializeField] private float _value;
     public float Value { get => _value;} 
@@ -29,4 +30,7 @@ public abstract class Item : ScriptableObject
         UnityEngine.Debug.LogWarning($"target inventory does not contain item {Name} to remove");
         return false;
     }
+    private void OnEnable() {
+        _name = Name; // i know it seems weird to set them in this order but we cant serialize properties and only need this for the inspector    
+    }                 // and also cant access the this keyword outside a method
 }

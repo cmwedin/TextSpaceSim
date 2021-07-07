@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -16,7 +17,7 @@ public class CharacterCustomEditor : Editor {
     private CharacterSO _targetSO;
     protected CharacterSO TargetSO {
         get { //! only directly access this when necessary, and only access its methods
-            UnityEngine.Debug.LogWarning("Editor accessing targetSO directly, are you sure you need to be doing this?");
+            //UnityEngine.Debug.LogWarning("Editor accessing targetSO directly, are you sure you need to be doing this?");
             return _targetSO;} 
     }                                    
     bool showAttributes = false;
@@ -72,8 +73,35 @@ public class CharacterCustomEditor : Editor {
             GUILayout.EndVertical();
             
         }
-        
+        // ! attempting to code this section through serialized objects and properties became a productivity black hole ! //
+        // ! A record of which is recorded below ! //
+        // ! for now i am going to do it the dirty way so i can move on to something else ! //
         // * Inventory Section * //
+        EditorGUILayout.EndFoldoutHeaderGroup();
+        showInv = EditorGUILayout.BeginFoldoutHeaderGroup(showInv, "Inventory");
+        if(showInv) {
+            // * button to add an item to the inventory
+            if (GUILayout.Button("Add Item")) {
+                string itemPath = EditorUtility.OpenFilePanel("Select Item","Assets/ScriptableObjects/Items/","asset");
+                if (itemPath.Length == 0) throw new UnityException("Error loaded item path empty");
+                Item item = AssetDatabase.LoadAssetAtPath<Item>(itemPath.Substring(itemPath.IndexOf("Assets")));
+                item.GiveTo(TargetSO.inventory);
+            }
+            List<Item> Items = TargetSO.inventory.contents.Keys.ToList();
+            List<int> Qtys = TargetSO.inventory.contents.Values.ToList();      
+            if(Items.Count == 0) {GUILayout.Label("Inventory Empty");}
+            else for (int _ = 0; _ < Items.Count; _ ++) {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label($"{Items[_].Name}");
+                Qtys[_] = EditorGUILayout.IntField(Qtys[_]);
+                GUILayout.EndHorizontal();
+                //! this is bad
+            }
+        }
+        EditorGUILayout.EndFoldoutHeaderGroup();
+
+        //TODO Fix this
+        /* // * Broken Inventory Section * //
         EditorGUILayout.EndFoldoutHeaderGroup();
         showInv = EditorGUILayout.BeginFoldoutHeaderGroup(showInv, "Inventory");
         if(showInv) {
@@ -86,16 +114,19 @@ public class CharacterCustomEditor : Editor {
             }
             SerializedProperty Items = FindChildProperty(InventoryContents,"_Keys");
             SerializedProperty Qtys = FindChildProperty(InventoryContents,"_Values");      
-            for (int _ = 0; _ < Items.arraySize; _ ++) {
-                SerializedProperty item = Items.GetArrayElementAtIndex(_);
+            if(Items.arraySize == 0) {GUILayout.Label("Inventory Empty");}
+            else for (int _ = 0; _ < Items.arraySize; _ ++) {
+                SerializedObject item =  //?this is a serialized object because the code didn't work when it was a property (propably bc its an SO)
+                    new SerializedObject(Items.GetArrayElementAtIndex(_).objectReferenceValue);
                 SerializedProperty qty = Qtys.GetArrayElementAtIndex(_);
                 GUILayout.BeginHorizontal();
-                GUILayout.Label($"{item.displayName}");
+                GUILayout.Label($"{item.FindProperty("_name").stringValue}");
                 qty.intValue = EditorGUILayout.IntField(qty.intValue);
                 GUILayout.EndHorizontal();
             }
         }
         EditorGUILayout.EndFoldoutHeaderGroup();
+        */
         
         // ! Initialize Button ! //
         if(debug){ 
@@ -113,7 +144,7 @@ public class CharacterCustomEditor : Editor {
     SerializedProperty FindChildProperty(SerializedProperty parent, string path) {;
         string targetPath = $"{parent.propertyPath}.{path}";
         DebugMessage($"Looking up property at {targetPath}");
-        if(serializedObject.FindProperty(targetPath) == null) {throw new System.Exception("child property not found. Is it marked as Serializable?");}
+        if(serializedObject.FindProperty(targetPath) == null) {throw new System.Exception($"child property at {targetPath} not found. Is it marked as Serializable?");}
         return serializedObject.FindProperty(targetPath);    
     }
     void DebugMessage(string msg) {
