@@ -15,7 +15,7 @@ public class InkItemLayer : MonoBehaviour {
         //List<string> itemNames = new List<string>();
         //List<int> itemQtys = new List<int>();
         foreach (Item item in inventory.contents.Keys) {
-            InkListItem listEntry = new InkListItem();
+            InkListItem listEntry = new InkListItem("inventory",item.Name);
             output.Add(listEntry,inventory.contents[item]);
         }
         return output;
