@@ -1,9 +1,13 @@
 EXTERNAL LoadCharacter(name)
-EXTERNAL GetAttrib(name)
-EXTERNAL GetHealth()
-EXTERNAL GetName()
-EXTERNAL Damage(dmg)
-EXTERNAL IsDead()
+EXTERNAL GetTargetAttrib(name)
+EXTERNAL GetPlayerAttrib(name)
+EXTERNAL GetTargetHealth()
+EXTERNAL GetPlayerHealth()
+EXTERNAL GetTargetName()
+EXTERNAL GetPlayerName()
+EXTERNAL DamageTarget(dmg)
+EXTERNAL DamagePlayer(dmg)
+EXTERNAL TargetIsDead()
 
 === function CameFrom(-> x) 
 	~ return TURNS_SINCE(x) == 0

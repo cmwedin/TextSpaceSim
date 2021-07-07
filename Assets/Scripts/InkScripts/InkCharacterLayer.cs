@@ -42,8 +42,8 @@ public class InkCharacterLayer : MonoBehaviour
     }
     //CharacterSO.GetAttrib handles bad inputs on its own so this isn't really needed 
     //but it allows for some leniency in the inputs of the ink layer functions
-    private int GetAttrib(string name) {
-         
+    private int GetAttrib(string name,CharacterSO target = null) {
+        target = target ?? CurrentTarget; 
         name = name.Trim(); 
         if(name.Length != 3) throw new System.Exception($"{name} is not a valid attribute name, see CharacterSO.Attributes documentation"); 
         return _currentTarget.GetAttribValue(name.ToUpper());
@@ -72,11 +72,15 @@ public class InkCharacterLayer : MonoBehaviour
     private void BindInkExternals() {
         //binds ink external functions relevant to the class
         Manager.story.BindExternalFunction("LoadCharacter", (string name) => LoadCharacterSO(name));
-        Manager.story.BindExternalFunction("GetAttrib", (string name) => GetAttrib(name));
-        Manager.story.BindExternalFunction("GetHealth", () => _currentTarget.Health);
-        Manager.story.BindExternalFunction("GetName", () => _currentTarget.name);
-        Manager.story.BindExternalFunction("Damage", (float dmg) => _currentTarget.Damage(dmg));
-        Manager.story.BindExternalFunction("IsDead", () => _currentTarget.isDead);
+        Manager.story.BindExternalFunction("GetTargetAttrib", (string name) => GetAttrib(name));
+        Manager.story.BindExternalFunction("GetPlayerAttrib", (string name) => GetAttrib(name, _currentPlayer));
+        Manager.story.BindExternalFunction("GetTargetHealth", () => _currentTarget.Health);
+        Manager.story.BindExternalFunction("GetPlayerHealth", () => _currentPlayer.Health);
+        Manager.story.BindExternalFunction("GetTargetName", () => _currentTarget.name);
+        Manager.story.BindExternalFunction("GetPlayerName", () => _currentPlayer.name);
+        Manager.story.BindExternalFunction("DamageTarget", (float dmg) => _currentTarget.Damage(dmg));
+        Manager.story.BindExternalFunction("DamagePlayer", (float dmg) => _currentTarget.Damage(dmg));
+        Manager.story.BindExternalFunction("TargetIsDead", () => _currentTarget.isDead);
     }
 
 }

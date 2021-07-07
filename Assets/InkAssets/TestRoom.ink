@@ -5,28 +5,28 @@ INCLUDE Functions.ink
 
 === Testing_Dummy ===
 ~ LoadCharacter("Testing Dummy")
-{IsDead() : ->dead}
+{TargetIsDead() : ->dead}
 {The testing dummy doesnt seem to want to talk to you very much. Maybe it blames you for whats happened to it. We did make it so everything would be working properly for you after all. | the testing dummy continues to be inscrutable }
 +Examine the Dummies attributes
     ++ examine its strength
     { 
-        - GetAttrib("STR") < 4: 
+        - GetTargetAttrib("STR") < 4: 
         The dummy is very weak. 
-        - GetAttrib("STR") < 7: 
+        - GetTargetAttrib("STR") < 7: 
         The dummy is of average strength.
-        - GetAttrib("STR") < 10: 
+        - GetTargetAttrib("STR") < 10: 
         The dummy is considerably strong
-        - GetAttrib("STR") >= 10: 
+        - GetTargetAttrib("STR") >= 10: 
         The dummy is incrediably strong. The only reason it doesnt kill you where you stand is that combat hasnt been programed into the game yet.
         - else: Somthing went wrong, the dummy's strength should be {PrintNum("STR")}
     }
     ++ stop examining its attributes
     ->Testing_Dummy
 +(health) Examine the Dummies health
-    The Dummy has {PrintNum(GetHealth())} HP
+    The Dummy has {PrintNum(GetTargetHealth())} HP
     ++(punch) Punch The dummy
-    {Damage(5)} You give the testing dummy a solid punch,<> 
-    {IsDead() : and with that it collapses to the ground->dead}
+    {DamageTarget(5)} You give the testing dummy a solid punch,<> 
+    {TargetIsDead() : and with that it collapses to the ground->dead}
     ->health
     ++Stop examining health
     ->Testing_Dummy
