@@ -14,11 +14,9 @@ public class InkCharacterLayer : MonoBehaviour
     public CharacterSO CurrentTarget { get => _currentTarget;}
     public CharacterSO PrevTarget {get => _prevTarget;}
     public PlayerSO CurrentPlayer { get => _currentPlayer;}
-    //callback functions
-    void Awake () {
-    }
+
     //custom Methods
-    void LoadCharacterSO(string targetName) {
+    public void LoadCharacterSO(string targetName) {
         CharacterSO targ = GetCharacterSOByName(targetName);
         if(targ != null) { 
             if (_prevTarget != null) ClearTargetEvents();
@@ -42,7 +40,7 @@ public class InkCharacterLayer : MonoBehaviour
     }
     //CharacterSO.GetAttrib handles bad inputs on its own so this isn't really needed 
     //but it allows for some leniency in the inputs of the ink layer functions
-    private int GetAttrib(string name,CharacterSO target = null) {
+    public int GetAttrib(string name,CharacterSO target = null) {
         target = target ?? CurrentTarget; 
         name = name.Trim(); 
         if(name.Length != 3) throw new System.Exception($"{name} is not a valid attribute name, see CharacterSO.Attributes documentation"); 
@@ -52,11 +50,12 @@ public class InkCharacterLayer : MonoBehaviour
     //! Seperation of concerns might mean these functions should be moved to ItemLayer
     //! but since these work with CharacterSO's and CharacterItems I'm keeping them here for now
     //TODO reevaluate where they should be in the future
-    private void PickUp(string itemName, CharacterSO charToGive = null, int qty = 1) {
+    public void GiveItem(string itemName, CharacterSO charToGive = null, int qty = 1) {
         charToGive = charToGive ?? _currentPlayer;
         Item targetItem = Manager.ItemLayer.FindItem(itemName);
+        targetItem.GiveTo(charToGive.inventory,qty);
     }
-    private void TakeFrom(string itemName, CharacterSO charToTake = null, CharacterSO charToGive = null, int qty = 1) {
+    public void TakeFrom(string itemName, CharacterSO charToTake = null, CharacterSO charToGive = null, int qty = 1) {
         charToTake = charToTake ?? _currentTarget;
         charToGive = charToGive ?? _currentPlayer;
         Item targetItem = Manager.ItemLayer.FindItem(itemName);
@@ -67,20 +66,8 @@ public class InkCharacterLayer : MonoBehaviour
     }
     
     public void Init() {
-        BindInkExternals();
+
     }
-    private void BindInkExternals() {
-        //binds ink external functions relevant to the class
-        Manager.story.BindExternalFunction("LoadCharacter", (string name) => LoadCharacterSO(name));
-        Manager.story.BindExternalFunction("GetTargetAttrib", (string name) => GetAttrib(name));
-        Manager.story.BindExternalFunction("GetPlayerAttrib", (string name) => GetAttrib(name, _currentPlayer));
-        Manager.story.BindExternalFunction("GetTargetHealth", () => _currentTarget.Health);
-        Manager.story.BindExternalFunction("GetPlayerHealth", () => _currentPlayer.Health);
-        Manager.story.BindExternalFunction("GetTargetName", () => _currentTarget.name);
-        Manager.story.BindExternalFunction("GetPlayerName", () => _currentPlayer.name);
-        Manager.story.BindExternalFunction("DamageTarget", (float dmg) => _currentTarget.Damage(dmg));
-        Manager.story.BindExternalFunction("DamagePlayer", (float dmg) => _currentTarget.Damage(dmg));
-        Manager.story.BindExternalFunction("TargetIsDead", () => _currentTarget.isDead);
-    }
+
 
 }

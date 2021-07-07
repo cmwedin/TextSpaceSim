@@ -10,5 +10,8 @@ public class InkItemLayer : MonoBehaviour {
     public Item FindItem(string itemName) {
         return ItemDatabase.Find(x => x.Name == itemName);
     }
+    public void Init() {
+        
+    }
 
 }

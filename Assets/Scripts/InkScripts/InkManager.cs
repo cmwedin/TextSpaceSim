@@ -27,19 +27,37 @@ public class InkManager : MonoBehaviour {
     void Awake () {
 		// Remove the default message
 		RemoveChildren();
-		//assigns references for communicating data, all done here to avoid race conditions
-		//gets the other ink layers first
+		// ? assigns references for communicating data, all done here to avoid race conditions
+		// * gets the other ink layers first
 		CharacterLayer = gameObject.GetComponent<InkCharacterLayer>();
 		ItemLayer = gameObject.GetComponent<InkItemLayer>();
-		//connects them to itself
+		// *connects them to itself
 		CharacterLayer.Manager = this;
 		ItemLayer.Manager = this;
-		//create the story object here so other layers can use it for initializing
+		// * create the story object here so other layers can use it for initializing
 		story = new Story (inkJSONAsset.text);
 		CharacterLayer.Init();
+		ItemLayer.Init();
+		BindInkExternals();
 		//runs the main function
 		StartStory();
 	}
+	private void BindInkExternals() {
+        //binds ink external functions relevant to the class
+        story.BindExternalFunction("LoadCharacter", (string name) => CharacterLayer.LoadCharacterSO(name));
+        story.BindExternalFunction("GetTargetAttrib", (string name) => CharacterLayer.GetAttrib(name));
+        story.BindExternalFunction("GetPlayerAttrib", (string name) => CharacterLayer.GetAttrib(name, CharacterLayer.CurrentPlayer));
+        story.BindExternalFunction("GetTargetHealth", () => CharacterLayer.CurrentTarget.Health);
+        story.BindExternalFunction("GetPlayerHealth", () => CharacterLayer.CurrentPlayer.Health);
+        story.BindExternalFunction("GetTargetName", () => CharacterLayer.CurrentTarget.name);
+        story.BindExternalFunction("GetPlayerName", () => CharacterLayer.CurrentPlayer.name);
+        story.BindExternalFunction("DamageTarget", (float dmg) => CharacterLayer.CurrentTarget.Damage(dmg));
+        story.BindExternalFunction("DamagePlayer", (float dmg) => CharacterLayer.CurrentTarget.Damage(dmg));
+        story.BindExternalFunction("TargetIsDead", () => CharacterLayer.CurrentTarget.isDead);
+		story.BindExternalFunction("TakeFromTarget", (string itemName) => CharacterLayer.TakeFrom(itemName));
+		story.BindExternalFunction("PickUp", (string itemName) => CharacterLayer.GiveItem(itemName));
+
+    }
 
 	// Creates a new Story object with the compiled story which we can then play!
 	void StartStory () {

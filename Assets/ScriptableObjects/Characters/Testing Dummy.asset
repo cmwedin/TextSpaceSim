@@ -14,133 +14,154 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Attributes:
   - _name: STR
-    _value: 1
+    _value: 7
+  - _name: FOC
+    _value: 4
   - _name: INT
-    _value: 1
+    _value: 4
   - _name: REF
-    _value: 1
-  - _name: AGI
-    _value: 1
+    _value: 4
   - _name: VIT
-    _value: 1
+    _value: 4
   - _name: PER
-    _value: 1
+    _value: 4
   - _name: CHR
-    _value: 1
+    _value: 4
   - _name: LCK
-    _value: 1
+    _value: 4
   Skills:
   - _name: Sidearms
-    _value: 21
+    _value: 20
     governingAttributes:
     - _name: REF
-      _value: 5
-    - _name: AGI
-      _value: 3
+      _value: 4
+    - _name: FOC
+      _value: 4
   - _name: Rifles
-    _value: 25
+    _value: 20
     governingAttributes:
     - _name: PER
-      _value: 5
-    - _name: REF
-      _value: 5
-  - _name: Melee
-    _value: 18
-    governingAttributes:
-    - _name: STR
       _value: 4
-    - _name: AGI
-      _value: 3
-  - _name: Heavy Weaponry
-    _value: 22
+    - _name: FOC
+      _value: 4
+  - _name: Melee
+    _value: 35
     governingAttributes:
     - _name: STR
       _value: 4
     - _name: VIT
-      _value: 5
+      _value: 4
+  - _name: Heavy Weaponry
+    _value: 20
+    governingAttributes:
+    - _name: VIT
+      _value: 4
+    - _name: STR
+      _value: 4
   - _name: High-Tech
-    _value: 28
+    _value: 20
     governingAttributes:
     - _name: INT
-      _value: 6
-    - _name: PER
-      _value: 5
+      _value: 4
     - _name: REF
-      _value: 5
+      _value: 4
+    - _name: FOC
+      _value: 4
   - _name: Ballistics
-    _value: 24
+    _value: 20
     governingAttributes:
     - _name: VIT
-      _value: 5
+      _value: 4
     - _name: REF
-      _value: 5
+      _value: 4
     - _name: STR
       _value: 4
   - _name: Explosives
-    _value: 26
+    _value: 20
     governingAttributes:
     - _name: PER
-      _value: 5
-    - _name: INT
-      _value: 6
+      _value: 4
+    - _name: FOC
+      _value: 4
     - _name: REF
-      _value: 5
+      _value: 4
   - _name: Piloting
-    _value: 25
+    _value: 20
     governingAttributes:
     - _name: PER
-      _value: 5
+      _value: 4
     - _name: REF
-      _value: 5
+      _value: 4
+    - _name: VIT
+      _value: 4
   - _name: Leadership
-    _value: 25
+    _value: 20
     governingAttributes:
-    - _name: PER
-      _value: 5
-    - _name: REF
-      _value: 5
+    - _name: CHR
+      _value: 4
+    - _name: FOC
+      _value: 4
+    - _name: INT
+      _value: 4
   - _name: Medical
-    _value: 25
+    _value: 20
     governingAttributes:
-    - _name: PER
-      _value: 5
-    - _name: REF
-      _value: 5
+    - _name: INT
+      _value: 4
+    - _name: FOC
+      _value: 4
+    - _name: CHR
+      _value: 4
   - _name: Chemistry
-    _value: 25
+    _value: 20
     governingAttributes:
+    - _name: INT
+      _value: 4
     - _name: PER
-      _value: 5
-    - _name: REF
-      _value: 5
+      _value: 4
   - _name: Engineering
-    _value: 25
+    _value: 20
     governingAttributes:
-    - _name: PER
-      _value: 5
-    - _name: REF
-      _value: 5
+    - _name: FOC
+      _value: 4
+    - _name: VIT
+      _value: 4
   - _name: Rhetoric
-    _value: 25
+    _value: 20
     governingAttributes:
-    - _name: PER
-      _value: 5
-    - _name: REF
-      _value: 5
+    - _name: INT
+      _value: 4
+    - _name: CHR
+      _value: 4
   - _name: Charm
-    _value: 25
+    _value: 20
     governingAttributes:
+    - _name: CHR
+      _value: 4
     - _name: PER
-      _value: 5
-    - _name: REF
-      _value: 5
+      _value: 4
   - _name: Intimidation
-    _value: 25
+    _value: 20
     governingAttributes:
-    - _name: PER
-      _value: 5
-    - _name: REF
-      _value: 5
-  _health: 51
-  _maxHealth: 51
+    - _name: STR
+      _value: 4
+    - _name: CHR
+      _value: 4
+  inventory:
+    Owner: {fileID: 11400000}
+    contents:
+      _Buckets: ffffffff00000000ffffffff
+      _HashCodes: ae4300000000000000000000
+      _Next: ffffffff0000000000000000
+      _Count: 1
+      _Version: 4
+      _FreeList: -1
+      _FreeCount: 0
+      _Keys:
+      - {fileID: 11400000, guid: 7d16debed070e534089a3627eb14285c, type: 2}
+      - {fileID: 0}
+      - {fileID: 0}
+      _Values: 040000000000000000000000
+  _health: 41
+  _maxHealth: 41
   _name: Testing Dummy
