@@ -11,7 +11,8 @@ using UnityEngine;
     [SerializeField] private float _value;
     public float Value { get => _value;} 
     public virtual bool GiveTo(Inventory inventory, int qty = 1) {
-        inventory.contents.Add(this,qty);
+        if (inventory.contents.ContainsKey(this)) {inventory.contents[this] += qty;}
+        else {inventory.contents.Add(this,qty);}
         return true;
     }
     public bool RemoveFrom(Inventory inventory, int qtyToRemove = 1) {
