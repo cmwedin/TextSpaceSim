@@ -8,7 +8,7 @@ using UnityEngine;
     public string Name { get => this.name;} 
     [SerializeField] private float _weight;
     public float Weight { get => _weight;}
-    [SerializeField] private float _value;
+    [SerializeField] public float _value;
     public float Value { get => _value;} 
     public virtual bool GiveTo(Inventory inventory, int qty = 1) {
         if (inventory.contents.ContainsKey(this)) {inventory.contents[this] += qty;}

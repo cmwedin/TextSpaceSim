@@ -44,7 +44,7 @@ public class SerializableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
         }
     }
  
-    public TValue this[TKey key]
+    public virtual TValue this[TKey key] //? i made this virtual so i can override it to remove an item if its qty becomes 0
     {
         get
         {
