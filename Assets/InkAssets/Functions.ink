@@ -9,6 +9,7 @@ EXTERNAL DamageTarget(dmg)
 EXTERNAL DamagePlayer(dmg)
 EXTERNAL TargetIsDead()
 EXTERNAL TakeFromTarget(name)
+EXTERNAL PickUp(name)
 
 === function CameFrom(-> x) 
 	~ return TURNS_SINCE(x) == 0
